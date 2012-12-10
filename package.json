@@ -1,0 +1,20 @@
+{
+	"name": "sc5-grunt-boilerplate",
+	"version": "0.0.1",
+	"private": true,
+	"dependencies": {
+		"grunt-lib-contrib": ">=0.3.1",
+		"grunt-contrib-less": ">=0.3.2",
+		"grunt-contrib-clean": "=0.3.1",
+		"grunt-contrib-copy": ">=0.3.2",
+		"grunt-requirejs": ">=0.3.0"
+	},
+	
+	"scripts": {
+		"install": "bower install; cd server; npm install; cd ..",
+		"build": "grunt release",
+		"update": "bower update; grunt release",
+		"test": "grunt test",
+		"start": "node server/server.js"
+	}
+}

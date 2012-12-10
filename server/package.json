@@ -1,0 +1,11 @@
+{
+	"name": "sc5-grunt-boilerplate-server",
+	"version": "0.0.1",
+	"private": true,
+	"scripts": {
+		"start": "node server"
+	},
+	"dependencies": {
+		"express": "3.0.4"
+	}
+}
