@@ -4,9 +4,9 @@ This is a boilerplate to ease builds of web projects utilising RequireJS, having
 
 ## Installation
 
-If you don't already have node.js, fetch it from [nodejs.org](http://www.nodejs.org/). In addition we need a few dependencies you may have.
+If you don't already have node.js 0.8.x or later, fetch it from [nodejs.org](http://www.nodejs.org/). In addition we need a few dependencies you may have.
 
-    > npm install -g express grunt
+    > npm install -g bower grunt
 
 Installing the project itself is easy. Both build system dependencies and app dependencies are triggered by
 

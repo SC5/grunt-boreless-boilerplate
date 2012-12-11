@@ -7,7 +7,7 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-requirejs');
 
 	// The real grunt config
-	config = {
+	var config = {
 		pkg : '<json:package.json>',
 		/* Code quality related tasks */
 		lint : {
