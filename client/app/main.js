@@ -1,5 +1,5 @@
 require.config({
-	baseUrl: '.',
+	baseUrl: 'app',
 	shim : {
 		'ga': {
 			init: function() {
@@ -13,7 +13,6 @@ require.config({
 	},
 
 	paths : {
-		app: 'app',
 		ga: 'https://ssl.google-analytics.com/ga',
 		jquery: '../components/jquery/jquery.min',
 		modernizr: '../components/modernizer/modernizr'

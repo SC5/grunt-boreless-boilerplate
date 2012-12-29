@@ -81,7 +81,7 @@ module.exports = function(grunt) {
 			}
 		},
 		clean: {
-		 all: [ 'staging', 'dist' ]
+			all: [ 'staging', 'dist' ]
 		},
 		watch : {
 			client : {
