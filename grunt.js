@@ -56,7 +56,7 @@ module.exports = function(grunt) {
 		},
 		// Build JS into one monolith by JamJS/RequireJS
 		min : {
-			dist : {
+			release : {
 				src : 'staging/app/main.js',
 				dest : 'dist/app/main.js'
 			}
