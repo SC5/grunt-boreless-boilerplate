@@ -33,9 +33,11 @@ module.exports = function(grunt) {
 			release : {
 				options : {
 					baseUrl: 'client/app',
-					name: 'main',
+					name: '../components/almond/almond',
+					include: ['main'],
+					insertRequire: ['main'],
 					mainConfigFile: 'client/app/main.js',
-					out: 'staging/app/main.js',
+					out: 'staging/app/amdloader.js',
 					optimize: 'none'
 				}
 			}
@@ -57,8 +59,8 @@ module.exports = function(grunt) {
 		// Build JS into one monolith by JamJS/RequireJS
 		min : {
 			release : {
-				src : 'staging/app/main.js',
-				dest : 'dist/app/main.js'
+				src : 'staging/app/amdloader.js',
+				dest : 'dist/app/amdloader.js'
 			}
 		},
 		/* Helper tasks */
@@ -67,14 +69,13 @@ module.exports = function(grunt) {
 				files : {
 					'staging/': 'client/*.html',
 					'staging/app/': 'client/app/**/*',
-					'staging/components/': 'client/components/**/*'
+					'staging/components/': 'client/components/**/*',
+					'staging/app/amdloader.js': 'client/components/requirejs/require.js'
 				}
 			},
 			release : {
 				files : {
 					'staging/': 'client/*.html',
-					'staging/components/requirejs/require.js': 'client/components/requirejs/require.js',
-					'dist/components/requirejs/require.js': 'staging/components/requirejs/require.js',
 					'dist/': 'staging/*.html',
 					'dist/css/': 'staging/css/*.css'
 				}
