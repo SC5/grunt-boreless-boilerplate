@@ -1,4 +1,4 @@
 {
-	"directory" : "client/components",
-	"json"      : "component.json"
+	"directory": "client/components",
+	"json": "component.json"
 }

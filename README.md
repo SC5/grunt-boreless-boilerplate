@@ -1,4 +1,4 @@
-# Grunt + Bower + RequireJS + LESS Boilerplate
+# BoReLESS - Grunt Bower + RequireJS + LESS Boilerplate
 
 This is a boilerplate to ease builds of web projects utilising RequireJS, having several JS library dependencies. Unlike Yeoman & other tools, this is a pure Grunt script with full transparency on how the build is handled; there is no magic.
 
@@ -12,7 +12,7 @@ Installing the project itself is easy. Both build system dependencies and app de
 
     > npm install
 
-It actually performs a release build, too, to verify that everything is ok.
+It actually performs a release build, too (to verify that everything is ok).
 
 ## Building
 
@@ -64,12 +64,23 @@ To test the service in **release** mode, use
     server/package.json The server specific dependencies
 
 ### Build Results
-    
+
     staging/            Results of the build step
     dist/               Minified & optimised version
 
-### TODO
+## TODO
 
-* Make *grunt clean* work again to remove staging and dist
-* Use some sensible boilerplate (or fetch it from another project)
-* Merge with Yeoman once their 1.0 release with less magic becomes available
+* Use some sensible app boilerplate (or fetch it from another project)
+* Add Cordova builds (or put it its own branch or an example)
+* Add templating language compilation into JS RequireJS modules
+* Add tests and travis configuration
+* Add some examples & documentation
+
+## Release History
+
+* 2013/01/16 - v0.1.0 - Initial release
+
+## License
+
+Copyright (c) 2013 [SC5](http://sc5.io/), licensed for users and contributors under MIT license.
+https://github.com/sc5/grunt-boreless-boilerplate/blob/master/LICENSE-MIT

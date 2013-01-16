@@ -1,6 +1,6 @@
 {
-	"name": "sc5-grunt-boilerplate-server",
-	"version": "0.0.1",
+	"name": "grunt-boreless-boilerplate-server",
+	"version": "0.1.0",
 	"private": true,
 	"scripts": {
 		"start": "node server"
