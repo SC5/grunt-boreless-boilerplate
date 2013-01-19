@@ -8,10 +8,32 @@ module.exports = function(grunt) {
 
 	// The real grunt config
 	var config = {
-		pkg : '<json:package.json>',
+		pkg: '<json:package.json>',
+		defaults: {
+			source: {
+				/* Note: You also need to change RequireJS paths below */
+				dir: 'client'
+			},
+			debug: {
+				dir: 'staging'
+			},
+			release: {
+				dir: 'dist'
+			},
+			requirejs: {
+				/* Note: We build directly from the source directory to avoid copying of libs */
+				baseUrl: 'client/app',
+				name: '../components/almond/almond',
+				include: ['main'],
+				insertRequire: ['main'],
+				mainConfigFile: 'client/app/main.js',
+				out: 'temp/app/amdloader.js',
+				optimize: 'none'
+			}
+		},
 		/* Code quality related tasks */
 		lint : {
-			files : 'client/app/**/*.js'
+			files : '<%= defaults.source.dir %>/app/**/*.js'
 		},
 		jshint : {
 			options : {
@@ -27,66 +49,62 @@ module.exports = function(grunt) {
 		qunit : {
 			files : 'tests/*.html'
 		},
-
+		
 		/* Build & Optimization steps */
 		requirejs : {
 			release : {
-				options : {
-					baseUrl: 'client/app',
-					name: '../components/almond/almond',
-					include: ['main'],
-					insertRequire: ['main'],
-					mainConfigFile: 'client/app/main.js',
-					out: 'staging/app/amdloader.js',
-					optimize: 'none'
-				}
+				options: '<config:defaults.requirejs>'
 			}
 		},
 		less : {
 			// Fill in manually afterwards to support our config style
 			debug : {
-				src: 'client/css/styles.less',
-				dest: 'staging/css/styles.css'
+				src: '<%= defaults.source.dir %>/css/styles.less',
+				dest: '<%= defaults.debug.dir %>/css/styles.css'
 			},
 			release : {
 				options : {
 					yuicompress : true
 				},
-				src: 'client/css/styles.less',
-				dest: 'staging/css/styles.css'
+				src: '<%= defaults.source.dir %>/css/styles.less',
+				dest: 'temp/css/styles.css'
 			}
 		},
 		// Build JS into one monolith by JamJS/RequireJS
 		min : {
 			release : {
-				src : 'staging/app/amdloader.js',
-				dest : 'dist/app/amdloader.js'
+				src : 'temp/app/amdloader.js',
+				dest : '<%= defaults.release.dir %>/app/amdloader.js'
 			}
 		},
 		/* Helper tasks */
 		copy : {
 			debug : {
 				files : {
-					'staging/': 'client/*.html',
-					'staging/app/': 'client/app/**/*',
-					'staging/components/': 'client/components/**/*',
-					'staging/app/amdloader.js': 'client/components/requirejs/require.js'
+					'<%= defaults.debug.dir %>/': '<%= defaults.source.dir %>/*.html',
+					'<%= defaults.debug.dir %>/app/': '<%= defaults.source.dir %>/app/**/*',
+					'<%= defaults.debug.dir %>/components/': '<%= defaults.source.dir %>/components/**/*',
+					'<%= defaults.debug.dir %>/app/amdloader.js': '<%= defaults.source.dir %>/components/requirejs/require.js'
 				}
 			},
 			release : {
 				files : {
-					'staging/': 'client/*.html',
-					'dist/': 'staging/*.html',
-					'dist/css/': 'staging/css/*.css'
+					'temp/': '<%= defaults.source.dir %>/*.html',
+					'<%= defaults.release.dir %>/': 'temp/*.html',
+					'<%= defaults.release.dir %>/css/': 'temp/css/*.css'
 				}
 			}
 		},
 		clean: {
-			all: [ 'staging', 'dist' ]
+			all: [ 'temp', '<%= defaults.debug.dir %>', '<%= defaults.release.dir %>' ]
 		},
 		watch : {
 			client : {
-				files : [ 'client/app/**/*.js', 'client/css/**/*.less', 'client/*.html' ],
+				files : [
+				'<%= defaults.source.dir %>/app/**/*.js',
+				'<%= defaults.source.dir %>/css/**/*.less',
+				'<%= defaults.source.dir %>/*.html'
+				],
 				tasks : 'debug'
 			},
 			tests : {
@@ -95,11 +113,11 @@ module.exports = function(grunt) {
 			}
 		}
 	};
-
+	
 	// Project configuration.
 	grunt.initConfig(config);
-
-	// Task aliases
+	
+	// Define the 'external API' through task aliases; Override the defaults by platform specifics
 	grunt.registerTask('release', 'clean less:release requirejs:release copy:release min test');
 	grunt.registerTask('debug', 'clean less:debug copy:debug test watch');
 	grunt.registerTask('test', 'lint qunit');
