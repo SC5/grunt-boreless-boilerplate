@@ -1,16 +1,5 @@
 require.config({
 	baseUrl: 'app',
-	shim : {
-		'ga': {
-			init: function() {
-				var _gaq = window._gaq || [];
-				_gaq.push(['_setAccount', 'UA-XXXXX-X'], ['_trackPageview']);
-				window._gaq = _gaq;
-				return _gaq;
-			},
-			exports: '_gaq'
-		}
-	},
 
 	paths : {
 		jquery: '../components/jquery/jquery.min',
