@@ -9,6 +9,26 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('grunt-contrib-qunit');
+	
+	// Small-scale utility for processing templates
+	grunt.registerMultiTask('process', 'Process templates.', function() {
+		var data = this.data;
+		var context = data.context;
+		var src = grunt.template.process(data.src);
+		var dest = grunt.template.process(data.dest);
+		// Read file
+		var input = grunt.file.read(src);
+		// Process it
+		var output = grunt.template.process(input, { data: context });
+		// And write to a file
+		grunt.file.write(dest, output);
+		
+	 // Fail task if errors were logged.
+	 if (this.errorCount) { return false; }
+	
+	// Otherwise, print a success message.
+		grunt.log.writeln('File "' + dest + '" processed.');
+	});
 
 	// The real grunt config
 	var config = {
@@ -56,6 +76,22 @@ module.exports = function(grunt) {
 		},
 		
 		/* Build & Optimization steps */
+		process: {
+			debug: {
+				src: '<%= defaults.source.dir %>/index.html',
+				dest: '<%= defaults.debug.dir %>/index.html',
+				context: {
+					versionSuffix: ''
+				}
+			},
+			release: {
+				src: '<%= defaults.source.dir %>/index.html',
+				dest: 'temp/index.html',
+				context: {
+					versionSuffix: '-<%= pkg.version %>'
+				}
+			}
+		},
 		requirejs : {
 			release : {
 				options: '<%= defaults.requirejs %>'
@@ -72,15 +108,15 @@ module.exports = function(grunt) {
 					yuicompress : true
 				},
 				src: '<%= defaults.source.dir %>/css/styles.less',
-				dest: 'temp/css/styles.css'
+				dest: 'temp/css/styles-<%= pkg.version %>.css'
 			}
 		},
 		// Build JS into one monolith by JamJS/RequireJS
 		uglify : {
 			release : {
 				files: {
-					'<%= defaults.release.dir %>/app/main.js': 'temp/app/main.js',
-					'<%= defaults.release.dir %>/components/requirejs/require.js': '<%= defaults.source.dir %>/components/requirejs/require.js'
+					'<%= defaults.release.dir %>/app/main-<%= pkg.version %>.js': 'temp/app/main.js',
+					'<%= defaults.release.dir %>/components/requirejs/require-<%= pkg.version %>.js': '<%= defaults.source.dir %>/components/requirejs/require.js'
 				}
 			}
 		},
@@ -91,7 +127,7 @@ module.exports = function(grunt) {
 					{
 						src: '*.html',
 						expand: true,
-						cwd: '<%= defaults.source.dir %>',
+						cwd: 'temp',
 						dest: '<%= defaults.debug.dir %>'
 					},
 					{
@@ -114,7 +150,7 @@ module.exports = function(grunt) {
 					{
 						src: '*.html',
 						expand: true,
-						cwd: '<%= defaults.source.dir %>',
+						cwd: 'temp',
 						dest: '<%= defaults.release.dir %>'
 					},
 					/* Then the real thing */
@@ -150,8 +186,8 @@ module.exports = function(grunt) {
 	grunt.initConfig(config);
 	
 	// Define the 'external API' through task aliases; Override the defaults by platform specifics
-	grunt.registerTask('release', ['clean', 'less:release', 'requirejs:release', 'copy:release', 'uglify', 'test']);
-	grunt.registerTask('debug', ['clean', 'less:debug', 'copy:debug', 'test', 'watch']);
+	grunt.registerTask('release', ['clean', 'process:release', 'less:release', 'requirejs:release', 'copy:release', 'uglify', 'test']);
+	grunt.registerTask('debug', ['clean', 'process:debug', 'less:debug', 'copy:debug', 'test', 'watch']);
 	grunt.registerTask('test', ['jshint'/*, 'qunit'*/]);
 	grunt.registerTask('default', ['release']);
 };
