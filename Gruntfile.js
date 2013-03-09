@@ -4,11 +4,15 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-less');
 	grunt.loadNpmTasks('grunt-contrib-clean');
 	grunt.loadNpmTasks('grunt-contrib-copy');
-	grunt.loadNpmTasks('grunt-requirejs');
+	grunt.loadNpmTasks('grunt-contrib-requirejs');
+	grunt.loadNpmTasks('grunt-contrib-uglify');
+	grunt.loadNpmTasks('grunt-contrib-watch');
+	grunt.loadNpmTasks('grunt-contrib-jshint');
+	grunt.loadNpmTasks('grunt-contrib-qunit');
 
 	// The real grunt config
 	var config = {
-		pkg: '<json:package.json>',
+		pkg: grunt.file.readJSON('package.json'),
 		defaults: {
 			source: {
 				/* Note: You also need to change RequireJS paths below */
@@ -23,27 +27,28 @@ module.exports = function(grunt) {
 			requirejs: {
 				/* Note: We build directly from the source directory to avoid copying of libs */
 				baseUrl: 'client/app',
-				name: '../components/almond/almond',
-				include: ['main'],
-				insertRequire: ['main'],
 				mainConfigFile: 'client/app/main.js',
-				out: 'temp/app/amdloader.js',
-				optimize: 'none'
+				dir: 'temp/app',
+				optimize: 'none',
+				keepBuildDir: false,
+				paths: {
+				},
+				modules: [{ name: 'main' }]
 			}
 		},
 		/* Code quality related tasks */
-		lint : {
-			files : '<%= defaults.source.dir %>/app/**/*.js'
-		},
 		jshint : {
+			files : {
+				src: '<%= defaults.source.dir %>/app/**/*.js'
+			},
 			options : {
 				curly : true, eqeqeq : true, immed : true, latedef : true,
 				newcap : true,noarg : true, sub : true, undef : true,
-				boss : true, eqnull : true, browser : true, devel : true
-			},
-			globals : {
-				require : true,
-				define : true
+				boss : true, eqnull : true, browser : true, devel : true,
+				globals : {
+					require : true,
+					define : true
+				}
 			}
 		},
 		qunit : {
@@ -53,7 +58,7 @@ module.exports = function(grunt) {
 		/* Build & Optimization steps */
 		requirejs : {
 			release : {
-				options: '<config:defaults.requirejs>'
+				options: '<%= defaults.requirejs %>'
 			}
 		},
 		less : {
@@ -71,28 +76,55 @@ module.exports = function(grunt) {
 			}
 		},
 		// Build JS into one monolith by JamJS/RequireJS
-		min : {
+		uglify : {
 			release : {
-				src : 'temp/app/amdloader.js',
-				dest : '<%= defaults.release.dir %>/app/amdloader.js'
+				files: {
+					'<%= defaults.release.dir %>/app/main.js': 'temp/app/main.js',
+					'<%= defaults.release.dir %>/components/requirejs/require.js': '<%= defaults.source.dir %>/components/requirejs/require.js'
+				}
 			}
 		},
 		/* Helper tasks */
 		copy : {
 			debug : {
-				files : {
-					'<%= defaults.debug.dir %>/': '<%= defaults.source.dir %>/*.html',
-					'<%= defaults.debug.dir %>/app/': '<%= defaults.source.dir %>/app/**/*',
-					'<%= defaults.debug.dir %>/components/': '<%= defaults.source.dir %>/components/**/*',
-					'<%= defaults.debug.dir %>/app/amdloader.js': '<%= defaults.source.dir %>/components/requirejs/require.js'
-				}
+				files : [ 
+					{
+						src: '*.html',
+						expand: true,
+						cwd: '<%= defaults.source.dir %>',
+						dest: '<%= defaults.debug.dir %>'
+					},
+					{
+						src: 'app/**/*',
+						expand: true,
+						cwd: '<%= defaults.source.dir %>',
+						dest: '<%= defaults.debug.dir %>'
+					},
+					{
+						src: 'components/**/*',
+						expand: true,
+						cwd: '<%= defaults.source.dir %>',
+						dest: '<%= defaults.debug.dir %>'
+					}
+				]
 			},
 			release : {
-				files : {
-					'temp/': '<%= defaults.source.dir %>/*.html',
-					'<%= defaults.release.dir %>/': 'temp/*.html',
-					'<%= defaults.release.dir %>/css/': 'temp/css/*.css'
-				}
+				files : [
+					/* Copy to temp directory first */
+					{
+						src: '*.html',
+						expand: true,
+						cwd: '<%= defaults.source.dir %>',
+						dest: '<%= defaults.release.dir %>'
+					},
+					/* Then the real thing */
+					{
+						src: [ '**/*.css' ],
+						expand: true,
+						cwd: 'temp',
+						dest: '<%= defaults.release.dir %>'
+					}
+				]
 			}
 		},
 		clean: {
@@ -118,8 +150,8 @@ module.exports = function(grunt) {
 	grunt.initConfig(config);
 	
 	// Define the 'external API' through task aliases; Override the defaults by platform specifics
-	grunt.registerTask('release', 'clean less:release requirejs:release copy:release min test');
-	grunt.registerTask('debug', 'clean less:debug copy:debug test watch');
-	grunt.registerTask('test', 'lint qunit');
-	grunt.registerTask('default', 'release');
+	grunt.registerTask('release', ['clean', 'less:release', 'requirejs:release', 'copy:release', 'uglify', 'test']);
+	grunt.registerTask('debug', ['clean', 'less:debug', 'copy:debug', 'test', 'watch']);
+	grunt.registerTask('test', ['jshint'/*, 'qunit'*/]);
+	grunt.registerTask('default', ['release']);
 };

@@ -13,7 +13,6 @@ require.config({
 	},
 
 	paths : {
-		ga: 'https://ssl.google-analytics.com/ga',
 		jquery: '../components/jquery/jquery.min',
 		modernizr: '../components/modernizer/modernizr'
 	}

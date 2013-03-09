@@ -6,7 +6,7 @@ var express = require('express'),
 		path = require('path');
 
 var app = express(),
-		mode = app.get('env') === 'development' ? 'staging' : 'dist',
+		mode = app.get('env') === 'production' ? 'dist' : 'staging',
 		filePath = path.join(__dirname, '..', mode);
 
 app.configure(function() {
