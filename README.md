@@ -79,6 +79,7 @@ To test the service in **release** mode, use
 ## Release History
 
 * 2013/01/16 - v0.1.0 - Initial release
+* 2013/03/10 - v0.2.0 - Update to Grunt 0.4.0
 
 ## License
 
