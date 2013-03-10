@@ -109,7 +109,8 @@ module.exports = function(grunt) {
 				options : {
 					yuicompress : true
 				},
-				src: '<%= defaults.source.dir %>/css/styles.less',
+				src: [ '<%= defaults.source.dir %>/components/semantic-grid/stylesheets/reset.css',
+					'<%= defaults.source.dir %>/css/styles.less' ],
 				dest: 'temp/css/styles-<%= pkg.version %>.css'
 			},
 		},
@@ -160,6 +161,12 @@ module.exports = function(grunt) {
 						src: [ '**/*.css' ],
 						expand: true,
 						cwd: 'temp',
+						dest: '<%= defaults.release.dir %>'
+					},
+					{
+						src: 'app/**/*.json',
+						expand: true,
+						cwd: '<%= defaults.source.dir %>',
 						dest: '<%= defaults.release.dir %>'
 					}
 				]
