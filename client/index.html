@@ -2,17 +2,24 @@
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>BoReLESS Backbone Example</title>
 	<link href="css/styles<%= versionSuffix %>.css" rel="stylesheet" type="text/css"/>
 	<script data-main="app/main<%= versionSuffix %>.js" src="components/requirejs/require<%= versionSuffix %>.js"></script>
 </head>
 <body>
 	<header>
-		<h1>BoReLESS Backbone Example</h1>
+	<div class="navbar">
+		<div class="navbar-inner">
+			<a class="brand" data-link="internal" href="/">BoReLESS Backbone Example</a>
+		</div>
+	</div>
 	</header>
 	<section id="main"></section>
-	<footer>
-		<p>Copyright 2012 SC5 Online</p>
+	<footer class="footer">
+		<div class="well">
+			<p>Copyright 2012 SC5 Online</p>
+		</div>
 	</footer>
 </body>
 </html>
