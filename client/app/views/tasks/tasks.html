@@ -1,0 +1,6 @@
+<ul class="nav nav-list">
+	<li class="nav-header">{{ title }}</li>
+	{{#each models}}
+	<li><a data-link="internal" href="{{ this.path }}">{{ this.title }}</a></li>
+	{{/each}}
+</ul>

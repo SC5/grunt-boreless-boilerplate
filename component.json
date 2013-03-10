@@ -5,6 +5,11 @@
     "jquery": "~1.9.1",
     "backbone": "~0.9.10",
     "modernizer": "~2.6.2",
-    "requirejs": "~2.1.5"
+    "requirejs": "~2.1.5",
+    "semantic-grid": "latest",
+    "requirejs-domready": "~2.0.1",
+    "bootstrap": "~2.3.1",
+    "handlebars.js": "~1.0.10",
+    "requirejs-text": "~2.0.5"
   }
 }

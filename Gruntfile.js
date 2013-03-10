@@ -100,7 +100,9 @@ module.exports = function(grunt) {
 		less : {
 			// Fill in manually afterwards to support our config style
 			debug : {
-				src: '<%= defaults.source.dir %>/css/styles.less',
+				// Trick to concatenate the reset.css into the less file
+				src: [ '<%= defaults.source.dir %>/components/semantic-grid/stylesheets/reset.css',
+					'<%= defaults.source.dir %>/css/styles.less' ],
 				dest: '<%= defaults.debug.dir %>/css/styles.css'
 			},
 			release : {
@@ -109,7 +111,7 @@ module.exports = function(grunt) {
 				},
 				src: '<%= defaults.source.dir %>/css/styles.less',
 				dest: 'temp/css/styles-<%= pkg.version %>.css'
-			}
+			},
 		},
 		// Build JS into one monolith by JamJS/RequireJS
 		uglify : {
@@ -171,7 +173,7 @@ module.exports = function(grunt) {
 				files : [
 				'<%= defaults.source.dir %>/app/**/*.js',
 				'<%= defaults.source.dir %>/css/**/*.less',
-				'<%= defaults.source.dir %>/*.html'
+				'<%= defaults.source.dir %>/**/*.html'
 				],
 				tasks : 'debug'
 			},
