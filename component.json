@@ -4,6 +4,7 @@
   "dependencies": {
     "jquery": "~1.9.1",
     "backbone": "~0.9.10",
+    "lodash": "~1.0.1",
     "modernizer": "~2.6.2",
     "requirejs": "~2.1.5",
     "requirejs-domready": "~2.0.1",
