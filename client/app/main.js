@@ -3,7 +3,7 @@ require.config({
 
 	paths : {
 		jquery: '../components/jquery/jquery.min',
-		modernizr: '../components/modernizer/modernizr'
+		modernizr: '../components/modernizr/modernizr'
 	}
 });
 
