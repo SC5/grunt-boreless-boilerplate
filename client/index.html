@@ -4,8 +4,11 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>BoReLESS Backbone Example</title>
-	<link href="css/styles<%= versionSuffix %>.css" rel="stylesheet" type="text/css"/>
-	<script data-main="app/main<%= versionSuffix %>.js" src="components/requirejs/require<%= versionSuffix %>.js"></script>
+	<link href="<%= stylesheetFile %>" rel="<%= stylesheetLanguage %>" type="text/css"/>
+	<script data-main="<%= scriptFile %>" src="<%= scriptLoader %>"></script>
+	<% for (var i = 0; i < scripts.length; i++) { %>
+	<script src="<%= scripts[i] %>"></script>
+	<% } %>
 </head>
 <body>
 	<header>
@@ -18,7 +21,7 @@
 	<section id="main" class="container"></section>
 	<footer class="footer">
 		<div class="well">
-			<p>Copyright 2012 SC5 Online</p>
+			<p>Copyright 2013 SC5 Online</p>
 		</div>
 	</footer>
 </body>

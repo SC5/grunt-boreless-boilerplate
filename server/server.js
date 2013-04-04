@@ -7,8 +7,10 @@ var express = require('express'),
 		url = require('url');
 
 var app = express(),
-		mode = app.get('env') === 'production' ? 'dist' : 'staging',
-		filePath = path.join(__dirname, '..', mode);
+		mode = app.get('env'),
+		sourcePath = path.join(__dirname, '..', 'client');
+		buildPath = path.join(__dirname,'..',
+			(mode === 'production') ? 'dist' : 'staging');
 		
 // Poor man's node.js express mod_rewrite
 function rewrite(paths, replacement) {
@@ -36,7 +38,12 @@ app.configure(function() {
 	app.set('port', process.env.PORT || 8080);
 	app.use(express.logger('dev'));
 	app.use(rewrite(['tasks(\/[\\d]+)?', 'resources(\/[\\d]+)' ], ''));
-	app.use(express.static(filePath));
+	
+	// First serve the files from build path, in debug mode fallback to source path
+	app.use(express.static(buildPath));
+	if (mode !== 'production') {
+		app.use(express.static(sourcePath));
+	}
 });
 
 app.configure('development', function() {
@@ -44,5 +51,5 @@ app.configure('development', function() {
 });
 
 http.createServer(app).listen(app.get('port'), function() {
-	console.log('Express server listening on port', app.get('port'), 'serving files from', filePath);
+	console.log('Express server listening on port', app.get('port'), 'serving files from', buildPath);
 });
