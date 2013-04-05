@@ -81,14 +81,24 @@ module.exports = function(grunt) {
 				src: '<%= defaults.source.dir %>/index.html',
 				dest: '<%= defaults.debug.dir %>/index.html',
 				context: {
-					versionSuffix: ''
+					stylesheetFile: 'css/styles.less',
+					stylesheetLanguage: 'stylesheet/less',
+					scriptFile: 'app/main.js',
+					scriptLoader: 'components/requirejs/require.js',
+					// This is an extra mechanism e.g. for injecting weinre, cordova & such
+					// things that we want to explicitly get to header
+					scripts: [ 'components/less.js/dist/less-1.3.3.js' ]
 				}
 			},
 			release: {
 				src: '<%= defaults.source.dir %>/index.html',
 				dest: 'temp/index.html',
 				context: {
-					versionSuffix: '-<%= pkg.version %>'
+					stylesheetFile: 'css/styles-<%= pkg.version %>.css',
+					stylesheetLanguage: 'stylesheet',
+					scriptFile: 'app/main-<%= pkg.version %>.js',
+					scriptLoader: 'components/requirejs/require-<%= pkg.version %>.js',
+					scripts: []
 				}
 			}
 		},
@@ -122,28 +132,6 @@ module.exports = function(grunt) {
 		},
 		/* Helper tasks */
 		copy : {
-			debug : {
-				files : [ 
-					{
-						src: '*.html',
-						expand: true,
-						cwd: 'temp',
-						dest: '<%= defaults.debug.dir %>'
-					},
-					{
-						src: 'app/**/*',
-						expand: true,
-						cwd: '<%= defaults.source.dir %>',
-						dest: '<%= defaults.debug.dir %>'
-					},
-					{
-						src: 'components/**/*',
-						expand: true,
-						cwd: '<%= defaults.source.dir %>',
-						dest: '<%= defaults.debug.dir %>'
-					}
-				]
-			},
 			release : {
 				files : [
 					/* Copy to temp directory first */
@@ -187,7 +175,7 @@ module.exports = function(grunt) {
 	
 	// Define the 'external API' through task aliases; Override the defaults by platform specifics
 	grunt.registerTask('release', ['clean', 'process:release', 'less:release', 'requirejs:release', 'copy:release', 'uglify', 'test']);
-	grunt.registerTask('debug', ['clean', 'process:debug', 'less:debug', 'copy:debug', 'test', 'watch']);
+	grunt.registerTask('debug', ['clean', 'process:debug', 'less:debug', 'test', 'watch']);
 	grunt.registerTask('test', ['jshint'/*, 'qunit'*/]);
 	grunt.registerTask('default', ['release']);
 };

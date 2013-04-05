@@ -3,8 +3,11 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<title>BoReLESS - Grunt, Bower, RequireJS, &amp; LESS Boilerplate</title>
-	<link href="css/styles<%= versionSuffix %>.css" rel="stylesheet" type="text/css"/>
-	<script data-main="app/main<%= versionSuffix %>.js" src="components/requirejs/require<%= versionSuffix %>.js"></script>
+	<link href="<%= stylesheetFile %>" rel="<%= stylesheetLanguage %>" type="text/css"/>
+	<script data-main="<%= scriptFile %>" src="<%= scriptLoader %>"></script>
+	<% for (var i = 0; i < scripts.length; i++) { %>
+	<script src="<%= scripts[i] %>"></script>
+	<% } %>
 </head>
 <body>
 	<h1>BoReLESS - Grunt, Bower, RequireJS, &amp; LESS Boilerplate</h1>
@@ -12,7 +15,7 @@
 		If you see this, something in the installation got wrong.
 	</div>
 	<footer>
-		<p>Copyright 2012 SC5 Online</p>
+		<p>Copyright 2013 SC5 Online</p>
 	</footer>
 </body>
 </html>

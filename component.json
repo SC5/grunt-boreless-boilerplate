@@ -5,6 +5,7 @@
     "jquery": "~1.9.1",
     "backbone": "~0.9.10",
     "modernizr": "~2.6.2",
-    "requirejs": "~2.1.5"
+    "requirejs": "~2.1.5",
+    "less.js": "~1.4.0-b2"
   }
 }
