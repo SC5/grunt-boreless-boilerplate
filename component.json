@@ -11,6 +11,7 @@
     "handlebars.js": "~1.0.10",
     "requirejs-text": "~2.0.5",
     "less.js": "~1.4.0-b2"
-    "modernizr": "~2.6.2"
+    "modernizr": "~2.6.2",
+    "less.js": "~1.4.0-b2"
   }
 }

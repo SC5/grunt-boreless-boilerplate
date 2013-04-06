@@ -135,16 +135,6 @@ module.exports = function(grunt) {
 		},
 		/* Helper tasks */
 		copy : {
-			debug : {
-				files : [ 
-					{
-						src: '*.html',
-						expand: true,
-						cwd: 'temp',
-						dest: '<%= defaults.debug.dir %>'
-					}
-				]
-			},
 			release : {
 				files : [
 					/* Copy to temp directory first */

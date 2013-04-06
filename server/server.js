@@ -2,16 +2,16 @@
  * Minimal static file web server to test drive the site
  */
 var express = require('express'),
-		http = require('http'),
-		path = require('path'),
-		url = require('url');
+	http = require('http'),
+	path = require('path'),
+	url = require('url');
 
 var app = express(),
-		mode = app.get('env'),
-		sourcePath = path.join(__dirname, '..', 'client');
-		buildPath = path.join(__dirname,'..',
-			(mode === 'production') ? 'dist' : 'staging');
-		
+	mode = app.get('env'),
+	sourcePath = path.join(__dirname, '..', 'client');
+	buildPath = path.join(__dirname,'..',
+		(mode === 'production') ? 'dist' : 'staging');
+
 // Poor man's node.js express mod_rewrite
 function rewrite(paths, replacement) {
 	// Form a regular expression of the given paths for rewriting the URLs
