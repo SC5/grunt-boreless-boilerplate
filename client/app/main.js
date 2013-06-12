@@ -1,10 +1,10 @@
 require.config({
 	baseUrl: 'app',
-
+	
 	paths: {
 		text: '../components/requirejs-text/text',
-		jquery: '../components/jquery/jquery',
-		modernizr: '../components/modernizer/modernizr',
+		jquery: '../components/jquery/jquery.min',
+		modernizr: '../components/modernizr/modernizr',
 		underscore: '../components/lodash/dist/lodash.underscore',
 		backbone: '../components/backbone/backbone',
 		handlebars: '../components/handlebars.js/dist/handlebars',
