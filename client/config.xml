@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<widget xmlns="http://www.w3.org/ns/widgets" xmlns:tizen="http://tizen.org/ns/widgets" id="<%= uri %>" version="<%= version %>" viewmodes="maximized">
+	<tizen:application id="<%= package %>.<%= name %>" package="<%= package %>" required_version="2.1"/>
+	<content src="<%= htmlFile %>"/>
+	<icon src="<%= iconFile %>"/>
+	<name><%= title %></name>
+	<author href="<%= author.url %>" email="<%= author.email %>"><%= author.name %></author>
+	<description>A sample Tizen application</description>
+	<tizen:setting screen-orientation="portrait" context-menu="enable" background-support="disable" encryption="disable" install-location="internal-only"/>
+</widget>

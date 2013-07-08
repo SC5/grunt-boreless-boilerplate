@@ -9,6 +9,15 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('grunt-contrib-qunit');
+	grunt.loadNpmTasks('grunt-zip');
+	
+	var crypto = require('crypto');
+	
+	function createHash(string) {
+		var md5sum = crypto.createHash('md5'),
+			digest = md5sum.digest('hex');
+		return digest.slice(-10);
+	}
 	
 	// Small-scale utility for processing templates
 	grunt.registerMultiTask('process', 'Process templates.', function() {
@@ -34,6 +43,11 @@ module.exports = function(grunt) {
 	var config = {
 		pkg: grunt.file.readJSON('package.json'),
 		defaults: {
+			meta: {
+				title: 'Grunt Boreless Boilerplate',
+				// 10-character package name that SDK should generate to you
+				package: createHash('https://github.com/SC5/grunt-boreless-boilerplate'),
+			},
 			source: {
 				/* Note: You also need to change RequireJS paths below */
 				dir: 'client'
@@ -42,7 +56,7 @@ module.exports = function(grunt) {
 				dir: 'staging'
 			},
 			release: {
-				dir: 'dist'
+				dir: 'dist',
 			},
 			requirejs: {
 				/* Note: We build directly from the source directory to avoid copying of libs */
@@ -100,6 +114,26 @@ module.exports = function(grunt) {
 					scriptLoader: 'components/requirejs/require-<%= pkg.version %>.js',
 					scripts: []
 				}
+			},
+			manifest: {
+				src: '<%= defaults.source.dir %>/config.xml',
+				dest: 'temp/config.xml',
+				context: {
+					title: '<%= defaults.meta.title %>',
+					package: '<%= defaults.meta.package %>',
+					name: '<%= pkg.name %>',
+					description: '<%= pkg.description %>', 
+					version: '<%= pkg.version %>',
+					uri: '<%= pkg.homepage %>',
+					author: {
+						name: '<%= pkg.author.name %>',
+						email: '<%= pkg.author.email %>',
+						url: '<%= pkg.author.url %>',
+					},
+					// The HTML and icon file as they land to the resulting .wgt
+					htmlFile: 'index.html',
+					iconFile: 'icon.png'
+				}
 			}
 		},
 		requirejs : {
@@ -134,7 +168,7 @@ module.exports = function(grunt) {
 			}
 		},
 		/* Helper tasks */
-		copy : {
+		copy: {
 			release : {
 				files : [
 					/* Copy to temp directory first */
@@ -156,8 +190,32 @@ module.exports = function(grunt) {
 						expand: true,
 						cwd: '<%= defaults.source.dir %>',
 						dest: '<%= defaults.release.dir %>'
+					},
+				]
+			},
+			manifest: {
+				files: [
+					/* Tizen specific files */
+					{
+						src: 'icon.png',
+						expand: true,
+						cwd: '<%= defaults.source.dir %>',
+						dest: '<%= defaults.release.dir %>'
+					},
+					{
+						src: 'config.xml',
+						expand: true,
+						cwd: 'temp',
+						dest: '<%= defaults.release.dir %>'
 					}
 				]
+			}
+		},
+		zip: {
+			wgt: {
+				cwd: '<%= defaults.release.dir %>/',
+				src: '<%= defaults.release.dir %>/**/*',
+				dest: '<%= pkg.name %>-<%= pkg.version %>.wgt'
 			}
 		},
 		clean: {
@@ -186,5 +244,6 @@ module.exports = function(grunt) {
 	grunt.registerTask('release', ['clean', 'process:release', 'less:release', 'requirejs:release', 'copy:release', 'uglify', 'test']);
 	grunt.registerTask('debug', ['clean', 'process:debug', 'less:debug', 'test', 'watch']);
 	grunt.registerTask('test', ['jshint'/*, 'qunit'*/]);
+	grunt.registerTask('package', ['release', 'process:manifest', 'copy:manifest', 'zip:wgt']);
 	grunt.registerTask('default', ['release']);
 };
