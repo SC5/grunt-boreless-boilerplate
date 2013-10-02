@@ -1,14 +1,13 @@
-
 require.config({
-	baseUrl: 'app',
+  baseUrl: 'app',
 
-	paths : {
-		jquery: '../components/jquery/jquery.min',
-		modernizr: '../components/modernizr/modernizr'
-	}
+  paths : {
+    jquery: '../components/jquery/jquery.min',
+    modernizr: '../components/modernizr/modernizr'
+  }
 });
 
 require(['jquery', 'modernizr'], function($, modernizr) {
-	// use app here
-	$('#status').html('If you can read this text, your stack should be alright.');
+  // use app here
+  $('#status').html('If you can read this text, your stack should be alright.');
 });
