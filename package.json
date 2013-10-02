@@ -1,8 +1,8 @@
 {
   "name": "grunt-boreless-boilerplate",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "engines": {
-    "node": ">=0.10.0",
+    "node": ">=0.10.10",
     "npm":  ">=1.2.15"
   },
   "private": false,
