@@ -7,5 +7,12 @@
     "modernizr": "2.6.x",
     "requirejs": "2.1.x",
     "less.js": "1.5.x"
+  },
+   "devDependencies": {
+    "chai": "1.8.x",
+    "chai-changes": "latest",
+    "chai-jquery": "1.1.x",
+    "chai-backbone": "latest",
+    "sinonjs": "1.7.x"
   }
 }
