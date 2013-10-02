@@ -1,37 +1,18 @@
 {
   "name": "grunt-boreless-boilerplate",
   "version": "0.2.1",
-  "engines": {
-    "node": ">=0.10.0",
-    "npm":  ">=1.2.15"
-  },
-  "private": false,
   "dependencies": {
-    "grunt": "0.4.x",
-    "grunt-contrib-less": "0.7.x",
-    "grunt-contrib-clean": "0.5.x",
-    "grunt-contrib-copy": "0.4.x",
-    "grunt-contrib-uglify": "0.2.x",
-    "grunt-contrib-requirejs": "0.4.x",
-    "grunt-contrib-watch": "0.5.x"
+    "jquery": "1.10.x",
+    "backbone": "1.0.x",
+    "modernizr": "2.6.x",
+    "requirejs": "2.1.x",
+    "less.js": "1.5.x"
   },
-  "devDependencies": {
-    "grunt-contrib-jshint": "0.6.x",
-    "grunt-contrib-qunit": "0.3.x",
-    "grunt-karma": "0.7.x",
-    "karma-phantomjs-launcher": "0.1.x",
-    "karma-junit-reporter": "0.1.x",
-    "karma-mocha": "0.1.x",
-    "karma-requirejs": "0.1.x",
-    "karma-chrome-launcher": "0.1.x",
-    "karma-coverage": "0.1.x",
-    "phantomjs": "1.9.x"
-  },
-  "scripts": {
-    "install": "bower install; cd server; npm install; cd ..",
-    "build": "grunt release",
-    "update": "bower update; grunt release",
-    "test": "grunt test",
-    "start": "node server/server.js"
+   "devDependencies": {
+    "chai": "1.8.x",
+    "chai-changes": "latest",
+    "chai-jquery": "1.1.x",
+    "chai-backbone": "latest",
+    "sinonjs": "1.7.x"
   }
 }
