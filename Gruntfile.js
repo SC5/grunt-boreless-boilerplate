@@ -12,6 +12,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-karma');
+  grunt.loadNpmTasks('grunt-phonegap');
   
   // Small-scale utility for processing templates
   grunt.registerMultiTask('process', 'Process templates.', function() {
@@ -86,6 +87,17 @@ module.exports = function(grunt) {
         }
       }
     },
+    phonegap: {
+      config: {
+        root: 'staging',
+        config: 'client/config.xml',
+        cordova: 'client/.cordova',
+        path: 'phonegap',
+        plugins: [],
+        platforms: ['android'],
+        verbose: false
+      }
+    },
     karma: {
       options: {
         configFile: 'client/karma.conf.js',
@@ -138,7 +150,7 @@ module.exports = function(grunt) {
           scriptLoader: 'components/requirejs/require.js',
           // This is an extra mechanism e.g. for injecting weinre, cordova & such
           // things that we want to explicitly get to header
-          scripts: [ 'components/less.js/dist/less-1.3.3.js' ]
+          scripts: [ 'phonegap.js', 'components/less.js/dist/less-1.3.3.js' ]
         }
       },
       release: {
@@ -188,6 +200,11 @@ module.exports = function(grunt) {
     },
     /* Helper tasks */
     copy : {
+      debug: {
+        files: [
+          { expand: true, cwd: '<%= defaults.source.dir %>', src: ['app/**','components/**'], dest: '<%= defaults.debug.dir %>' }
+        ]
+      },
       release : {
         files : [
           /* Copy to temp directory first */
@@ -230,11 +247,19 @@ module.exports = function(grunt) {
   grunt.initConfig(config);
   
   // Define the 'external API' through task aliases; Override the defaults by platform specifics
-  grunt.registerTask('release', ['clean', 'process:release', 'less:release', 'requirejs:release', 'copy:release', 'uglify', 'test']);
-  grunt.registerTask('debug', ['clean', 'process:debug', 'less:debug', 'test', 'watch']);
+  // TODO: release task
+  //grunt.registerTask('release', ['clean', 'process:release', 'less:release', 'requirejs:release', 'copy:release', 'uglify', 'test']);
+  grunt.registerTask('debug', ['clean', 'process:debug', 'less:debug', 'copy:debug', 'test']);
   // NOTE: Tests starts a temporary server for static files
   grunt.registerTask('test:release', ['jshint', 'server', 'karma:release']);
   grunt.registerTask('test:debug', ['jshint', 'server', 'karma:debug']);
   grunt.registerTask('test', ['test:debug']);
-  grunt.registerTask('default', ['release']);
+
+  grunt.registerTask('build:debug', ['debug', 'phonegap:build']);
+  grunt.registerTask('build', ['build:debug']);
+
+  grunt.registerTask('run:debug', ['build:debug', 'phonegap:run']);
+  grunt.registerTask('run', ['run:debug']);
+
+  grunt.registerTask('default', ['run']);
 };

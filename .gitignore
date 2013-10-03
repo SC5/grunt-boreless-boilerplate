@@ -1,6 +1,7 @@
 temp
 staging
 dist
+phonegap
 node_modules
 server/node_modules
 client/components

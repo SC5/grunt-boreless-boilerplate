@@ -3,7 +3,7 @@
   "version": "0.3.0",
   "engines": {
     "node": ">=0.10.10",
-    "npm":  ">=1.2.15"
+    "npm": ">=1.2.15"
   },
   "private": false,
   "dependencies": {
@@ -25,7 +25,9 @@
     "karma-requirejs": "0.1.x",
     "karma-chrome-launcher": "0.1.x",
     "karma-coverage": "0.1.x",
-    "phantomjs": "1.9.x"
+    "phantomjs": "1.9.x",
+    "phonegap": "latest",
+    "grunt-phonegap": "0.2.x"
   },
   "scripts": {
     "install": "bower install; cd server; npm install; cd ..",

@@ -2,15 +2,17 @@
 <html>
 <head>
   <meta charset="utf-8" />
-  <title>BoReLESS - Grunt, Bower, RequireJS, &amp; LESS Boilerplate</title>
+  <meta name="format-detection" content="telephone=no" />
+  <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+  <title>BoReLESS - Grunt, Bower, RequireJS, &amp; LESS Boilerplate for Phonegap</title>
   <link href="<%= stylesheetFile %>" rel="<%= stylesheetLanguage %>" type="text/css"/>
-  <script data-main="<%= scriptFile %>" src="<%= scriptLoader %>"></script>
   <% for (var i = 0; i < scripts.length; i++) { %>
   <script src="<%= scripts[i] %>"></script>
   <% } %>
+  <script data-main="<%= scriptFile %>" src="<%= scriptLoader %>"></script>
 </head>
 <body>
-  <h1>BoReLESS - Grunt, Bower, RequireJS, &amp; LESS Boilerplate</h1>
+  <h1>BoReLESS - Grunt, Bower, RequireJS, &amp; LESS Boilerplate for Phonegap</h1>
   <div id="status">
     <p>If you see this, something is wrong with your installation.</p>
   </div>
