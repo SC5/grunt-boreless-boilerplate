@@ -9,7 +9,7 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('grunt-contrib-qunit');
-	
+
 	// Small-scale utility for processing templates
 	grunt.registerMultiTask('process', 'Process templates.', function() {
 		var data = this.data;
@@ -22,10 +22,10 @@ module.exports = function(grunt) {
 		var output = grunt.template.process(input, { data: context });
 		// And write to a file
 		grunt.file.write(dest, output);
-		
+
 	 // Fail task if errors were logged.
 	 if (this.errorCount) { return false; }
-	
+
 	// Otherwise, print a success message.
 		grunt.log.writeln('File "' + dest + '" processed.');
 	});
@@ -74,7 +74,7 @@ module.exports = function(grunt) {
 		qunit : {
 			files : 'tests/*.html'
 		},
-		
+
 		/* Build & Optimization steps */
 		process: {
 			debug: {
@@ -169,13 +169,13 @@ module.exports = function(grunt) {
 			}
 		}
 	};
-	
+
 	// Project configuration.
 	grunt.initConfig(config);
-	
+
 	// Define the 'external API' through task aliases; Override the defaults by platform specifics
 	grunt.registerTask('release', ['clean', 'process:release', 'less:release', 'requirejs:release', 'copy:release', 'uglify', 'test']);
-	grunt.registerTask('debug', ['clean', 'process:debug', 'less:debug', 'test', 'watch']);
+	grunt.registerTask('debug', ['clean', 'process:debug', 'less:debug', 'test']);
 	grunt.registerTask('test', ['jshint'/*, 'qunit'*/]);
 	grunt.registerTask('default', ['release']);
 };
