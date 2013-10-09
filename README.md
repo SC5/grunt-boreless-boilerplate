@@ -20,6 +20,10 @@ To trigger **debug** build
 
     > grunt debug
 
+To trigger **debug** build and watch for changes
+
+    > grunt debug watch
+
 To trigger **release** build
 
     > grunt release
