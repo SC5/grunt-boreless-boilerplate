@@ -1,11 +1,11 @@
 {
-  "name": "grunt-boreless-boilerplate",
-  "version": "0.3.0",
-  "dependencies": {
-    "jquery": "1.10.x",
-    "requirejs": "2.1.x",
-    "less.js": "1.5.x"
-  },
-   "devDependencies": {
-  }
+	"name": "grunt-boreless-boilerplate",
+	"version": "0.3.0",
+	"dependencies": {
+		"jquery": "1.10.x",
+		"requirejs": "2.1.x",
+		"less.js": "1.5.x"
+	},
+	"devDependencies": {
+	}
 }
