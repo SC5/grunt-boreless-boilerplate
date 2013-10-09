@@ -12,7 +12,7 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('grunt-karma');
-	
+
 	// Small-scale utility for processing templates
 	grunt.registerMultiTask('process', 'Process templates.', function() {
 		var data = this.data;
@@ -125,7 +125,7 @@ module.exports = function(grunt) {
 				browsers: ['Chrome']
 			}
 		},
-		
+
 		/* Build & Optimization steps */
 		process: {
 			debug: {
@@ -225,13 +225,13 @@ module.exports = function(grunt) {
 			}
 		}
 	};
-	
+
 	// Project configuration.
 	grunt.initConfig(config);
-	
+
 	// Define the 'external API' through task aliases; Override the defaults by platform specifics
 	grunt.registerTask('release', ['clean', 'process:release', 'less:release', 'requirejs:release', 'copy:release', 'uglify', 'test']);
-	grunt.registerTask('debug', ['clean', 'process:debug', 'less:debug', 'test', 'watch']);
+	grunt.registerTask('debug', ['clean', 'process:debug', 'less:debug', 'test']);
 	// NOTE: Tests starts a temporary server for static files
 	grunt.registerTask('test:release', ['jshint', 'server', 'karma:release']);
 	grunt.registerTask('test:debug', ['jshint', 'server', 'karma:debug']);

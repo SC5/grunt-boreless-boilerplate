@@ -20,6 +20,10 @@ To trigger **debug** build
 
     > grunt debug
 
+To trigger **debug** build and watch for changes
+
+    > grunt debug watch
+
 To trigger **release** build
 
     > grunt release
@@ -29,7 +33,7 @@ To trigger **release** build
 Most likely the normal *grunt server* will fail (yet there is no big reason why it should). The system comes with bundled *node/express* stack, because that is likely you would use for development use, anyway. Start the server in **debug** mode by
 
     > npm start
-   
+
 Note that if you have run *grunt debug* in another window, it should be rebuilding your changed pages in the background.
 
 To test the service in **release** mode, use
@@ -49,7 +53,7 @@ To test the service in **release** mode, use
     client/app/main.js  The app JS entry point
     client/components   The 3rd party JS dependencies
     client/css          The CSS templates
-    
+
 
 ####  Build System
 

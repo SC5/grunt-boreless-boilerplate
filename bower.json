@@ -7,6 +7,6 @@
 		"requirejs": "2.1.x",
 		"less.js": "1.5.x"
 	},
-	 "devDependencies": {
+	"devDependencies": {
 	}
 }
