@@ -230,11 +230,10 @@ module.exports = function(grunt) {
 	grunt.initConfig(config);
 
 	// Define the 'external API' through task aliases; Override the defaults by platform specifics
-	grunt.registerTask('release', ['clean', 'process:release', 'less:release', 'requirejs:release', 'copy:release', 'uglify', 'test']);
-	grunt.registerTask('debug', ['clean', 'process:debug', 'less:debug', 'test']);
+	grunt.registerTask('release', ['clean', 'process:release', 'less:release', 'requirejs:release', 'copy:release', 'uglify', 'test:release']);
+	grunt.registerTask('debug', ['clean', 'process:debug', 'less:debug', 'test:debug']);
 	// NOTE: Tests starts a temporary server for static files
 	grunt.registerTask('test:release', ['jshint', 'server', 'karma:release']);
 	grunt.registerTask('test:debug', ['jshint', 'server', 'karma:debug']);
-	grunt.registerTask('test', ['test:debug']);
 	grunt.registerTask('default', ['release']);
 };
