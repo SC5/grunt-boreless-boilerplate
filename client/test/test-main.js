@@ -1,9 +1,25 @@
-var tests = Object.keys(window.__karma__.files).filter(function (file) {
-	return (/.spec\.js$/).test(file);
-});
+// Fetch all the files to be loaded by Karma; parse the actual tests
+// based on '.spec.js' filter
+var tests = [];
+for (var file in window.__karma__.files) {
+	if (window.__karma__.files.hasOwnProperty(file)) {
+		if (/\.spec\.js$/.test(file)) {
+			tests.push(file);
+		}
+	}
+}
 
-require([].concat(tests),
-	function() {
-	// Run the tests
-	window.__karma__.start();
+// Fetch the base (main) config, override by Karma specific base url.
+// Then run the tests.
+var baseUrl = '/base/app';
+require([ baseUrl + '/config.js'], function(mainConfig) {
+	require.config({
+		baseUrl: baseUrl
+	});
+
+	// Start the tests
+	require([].concat(tests), function() {
+		window.__karma__.start();
+		//console.log('Tests ran:', tests);
+	});
 });

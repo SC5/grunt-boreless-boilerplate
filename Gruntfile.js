@@ -1,8 +1,6 @@
 /*global module:false*/
 /*global process:false*/
 module.exports = function(grunt) {
-	var port = process.env.PORT || 8080;
-	
 	// Bootstrap the extra tasks needed by Grunt
 	grunt.loadNpmTasks('grunt-contrib-less');
 	grunt.loadNpmTasks('grunt-contrib-clean');
@@ -33,17 +31,6 @@ module.exports = function(grunt) {
 		grunt.log.writeln('File "' + dest + '" processed.');
 	});
 
-	// Launch the server from within grunt
-	// Small-scale utility for processing templates
-	grunt.registerMultiTask('server', 'Launch test server.', function() {
-		var data = this.data;
-		var context = data.context;
-		var source = grunt.template.process(data.src);
-
-		// Require the server. Note: Currently it starts by itself
-		var server = require(source);
-	});
-
 	// The real grunt config
 	var config = {
 		pkg: grunt.file.readJSON('package.json'),
@@ -61,7 +48,7 @@ module.exports = function(grunt) {
 			requirejs: {
 				/* Note: We build directly from the source directory to avoid copying of libs */
 				baseUrl: 'client/app',
-				mainConfigFile: 'client/app/main.js',
+				mainConfigFile: 'client/app/config.js',
 				dir: 'temp/app',
 				optimize: 'none',
 				keepBuildDir: false,
@@ -89,11 +76,6 @@ module.exports = function(grunt) {
 		karma: {
 			options: {
 				configFile: 'client/karma.conf.js',
-				proxies: {
-					'/app': 'http://localhost:' + port + '/app',
-					'/components' : 'http://localhost:' + port + '/components',
-					'/contrib' : 'http://localhost:' + port + '/contrib'
-				},
 				singleRun: true,
 				browsers: ['PhantomJS']
 			},
@@ -122,7 +104,8 @@ module.exports = function(grunt) {
 				}
 			},
 			desktop: {
-				browsers: ['Chrome']
+				browsers: ['Chrome'],
+				singleRun: false,
 			}
 		},
 
@@ -151,11 +134,6 @@ module.exports = function(grunt) {
 					scriptLoader: 'components/requirejs/require-<%= pkg.version %>.js',
 					scripts: []
 				}
-			}
-		},
-		server: {
-			all: {
-				src: './server/server.js'
 			}
 		},
 		requirejs : {
@@ -233,7 +211,8 @@ module.exports = function(grunt) {
 	grunt.registerTask('release', ['clean', 'process:release', 'less:release', 'requirejs:release', 'copy:release', 'uglify', 'test:release']);
 	grunt.registerTask('debug', ['clean', 'process:debug', 'less:debug', 'test:debug']);
 	// NOTE: Tests starts a temporary server for static files
-	grunt.registerTask('test:release', ['jshint', 'server', 'karma:release']);
-	grunt.registerTask('test:debug', ['jshint', 'server', 'karma:debug']);
+	grunt.registerTask('test:release', ['jshint', 'karma:release']);
+	grunt.registerTask('test:debug', ['jshint', 'karma:debug']);
+	grunt.registerTask('test:desktop', ['jshint', 'karma:desktop']);
 	grunt.registerTask('default', ['release']);
 };

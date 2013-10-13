@@ -8,19 +8,13 @@ module.exports = function(config) {
     // list of files / patterns to load in the browser
     files: [
       { pattern: 'test/**/*.spec.js', included: false },
-      'app/main.js',
+      { pattern: 'app/**/*.js', included: false },
+      { pattern: 'components/**/*.js', included: false },
       'test/test-main.js'
     ],
 
-    // NOTE: This get overridden in Gruntfile.js to make port configurable
-    proxies: {
-      '/app': 'http://localhost:8080/app',
-      '/components' : 'http://localhost:8080/components',
-      '/contrib' : 'http://localhost:8080/contrib'
-    },
-
     // list of files to exclude
-    exclude: [],
+    exclude: ['app/main.js'],
 
     // use dots reporter, as travis terminal does not support escaping sequences
     // possible values: 'dots', 'progress'
