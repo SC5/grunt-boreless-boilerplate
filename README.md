@@ -1,4 +1,5 @@
 # BoReLESS - Grunt Bower + RequireJS + LESS Boilerplate
+[![Build Status](https://travis-ci.org/SC5/grunt-boreless-boilerplate.png?branch=master)](https://travis-ci.org/SC5/grunt-boreless-boilerplate)
 
 This is a boilerplate to ease builds of web projects utilising good build
 tools and related utilities, such as Grunt, RequireJS, LESS and Karma.
