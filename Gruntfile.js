@@ -1,4 +1,5 @@
 /*global module:false*/
+/*global process:false*/
 module.exports = function(grunt) {
 	// Bootstrap the extra tasks needed by Grunt
 	grunt.loadNpmTasks('grunt-contrib-less');
@@ -8,7 +9,7 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-contrib-jshint');
-	grunt.loadNpmTasks('grunt-contrib-qunit');
+	grunt.loadNpmTasks('grunt-karma');
 
 	// Small-scale utility for processing templates
 	grunt.registerMultiTask('process', 'Process templates.', function() {
@@ -22,11 +23,11 @@ module.exports = function(grunt) {
 		var output = grunt.template.process(input, { data: context });
 		// And write to a file
 		grunt.file.write(dest, output);
-
-	 // Fail task if errors were logged.
-	 if (this.errorCount) { return false; }
-
-	// Otherwise, print a success message.
+		
+		// Fail task if errors were logged.
+		if (this.errorCount) { return false; }
+	
+		// Otherwise, print a success message.
 		grunt.log.writeln('File "' + dest + '" processed.');
 	});
 
@@ -47,7 +48,7 @@ module.exports = function(grunt) {
 			requirejs: {
 				/* Note: We build directly from the source directory to avoid copying of libs */
 				baseUrl: 'client/app',
-				mainConfigFile: 'client/app/main.js',
+				mainConfigFile: 'client/app/config.js',
 				dir: 'temp/app',
 				optimize: 'none',
 				keepBuildDir: false,
@@ -57,10 +58,11 @@ module.exports = function(grunt) {
 			}
 		},
 		/* Code quality related tasks */
-		jshint : {
-			files : {
-				src: '<%= defaults.source.dir %>/app/**/*.js'
-			},
+		jshint: {
+			files: [
+					'<%= defaults.source.dir %>/app/**/*.js',
+					'*.js'
+			],
 			options : {
 				curly : true, eqeqeq : true, immed : true, latedef : true,
 				newcap : true,noarg : true, sub : true, undef : true,
@@ -71,8 +73,40 @@ module.exports = function(grunt) {
 				}
 			}
 		},
-		qunit : {
-			files : 'tests/*.html'
+		karma: {
+			options: {
+				configFile: 'client/karma.conf.js',
+				singleRun: true,
+				browsers: ['PhantomJS']
+			},
+			debug: {
+				reporters: ['dots', 'coverage', 'junit'],
+				junitReporter: {
+					// NOTE: Output file is relative to karma.conf.js
+					outputFile: '../<%= defaults.debug.dir %>/test/junit/test-results.xml',
+					suite: ''
+				},
+				coverageReporter: {
+					type: 'cobertura',
+					dir: '../<%= defaults.debug.dir %>/test/coverage/'
+				}
+			},
+			release: {
+				reporters: ['dots', 'coverage', 'junit'],
+				junitReporter: {
+					// NOTE: Output file is relative to karma.conf.js
+					outputFile: '../<%= defaults.release.dir %>/test/junit/test-results.xml',
+					suite: ''
+				},
+				coverageReporter: {
+					type: 'cobertura',
+					dir: '../<%= defaults.release.dir %>/test/coverage/'
+				}
+			},
+			desktop: {
+				browsers: ['Chrome'],
+				singleRun: false,
+			}
 		},
 
 		/* Build & Optimization steps */
@@ -174,8 +208,11 @@ module.exports = function(grunt) {
 	grunt.initConfig(config);
 
 	// Define the 'external API' through task aliases; Override the defaults by platform specifics
-	grunt.registerTask('release', ['clean', 'process:release', 'less:release', 'requirejs:release', 'copy:release', 'uglify', 'test']);
-	grunt.registerTask('debug', ['clean', 'process:debug', 'less:debug', 'test']);
-	grunt.registerTask('test', ['jshint'/*, 'qunit'*/]);
+	grunt.registerTask('release', ['clean', 'process:release', 'less:release', 'requirejs:release', 'copy:release', 'uglify', 'test:release']);
+	grunt.registerTask('debug', ['clean', 'process:debug', 'less:debug', 'test:debug']);
+	// NOTE: Tests starts a temporary server for static files
+	grunt.registerTask('test:release', ['jshint', 'karma:release']);
+	grunt.registerTask('test:debug', ['jshint', 'karma:debug']);
+	grunt.registerTask('test:desktop', ['jshint', 'karma:desktop']);
 	grunt.registerTask('default', ['release']);
 };

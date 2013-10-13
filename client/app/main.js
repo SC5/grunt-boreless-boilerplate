@@ -1,13 +1,3 @@
-require.config({
-	baseUrl: 'app',
-
-	paths : {
-		jquery: '../components/jquery/jquery.min',
-		modernizr: '../components/modernizr/modernizr'
-	}
+require(['./config', './app'], function(config, app) {
+	app.start();
 });
-
-require(['jquery', 'modernizr'], function($, modernizr) {
-	// use app here
-	$('#status').html('If you can read this text, your stack should be alright.');
-}); 

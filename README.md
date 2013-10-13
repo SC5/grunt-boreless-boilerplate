@@ -1,14 +1,21 @@
 # BoReLESS - Grunt Bower + RequireJS + LESS Boilerplate
 
-This is a boilerplate to ease builds of web projects utilising RequireJS, having several JS library dependencies. Unlike Yeoman & other tools, this is a pure Grunt script with full transparency on how the build is handled; there is no magic.
+This is a boilerplate to ease builds of web projects utilising good build
+tools and related utilities, such as Grunt, RequireJS, LESS and Karma.
+
+Unlike Yeoman & other tools, this is a pure Grunt script with full transparency
+on how the build is handled; there is no magic.
 
 ## Installation
 
-If you don't already have node.js 0.8.x or later, fetch it from [nodejs.org](http://www.nodejs.org/). In addition we need a few dependencies you may have.
+If you don't already have node.js 0.8.x or later, fetch it from
+[nodejs.org](http://www.nodejs.org/). In addition we need a few dependencies
+you may have.
 
     > npm install -g bower grunt-cli
 
-Installing the project itself is easy. Both build system dependencies and app dependencies are triggered by
+Installing the project itself is easy. Both build system dependencies and app
+dependencies are triggered by
 
     > npm install
 
@@ -30,11 +37,15 @@ To trigger **release** build
 
 ## Running the Service
 
-Most likely the normal *grunt server* will fail (yet there is no big reason why it should). The system comes with bundled *node/express* stack, because that is likely you would use for development use, anyway. Start the server in **debug** mode by
+Most likely the normal *grunt server* will fail (yet there is no big reason
+why it should). The system comes with bundled *node/express* stack, because
+that is likely you would use for development use, anyway. Start the server in
+**debug** mode by
 
     > npm start
 
-Note that if you have run *grunt debug* in another window, it should be rebuilding your changed pages in the background.
+Note that if you have run *grunt debug* in another window, it should be
+rebuilding your changed pages in the background.
 
 To test the service in **release** mode, use
 
@@ -84,6 +95,7 @@ To test the service in **release** mode, use
 
 * 2013/01/16 - v0.1.0 - Initial release
 * 2013/03/10 - v0.2.0 - Update to Grunt 0.4.0
+* 2013/10/12 - v0.3.0 - Add Karma based test automation
 
 ## License
 
