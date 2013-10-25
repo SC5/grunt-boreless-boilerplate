@@ -11,7 +11,7 @@ define(['backbone', 'underscore', 'jquery', 'module'], function(Backbone, _, $, 
 		
 		handleEvent: function(event) {
 			switch(event) {
-				case 'reset':
+				case 'add':
 				case 'sort':
 					this.state = 'ready';
 					break;

@@ -43,9 +43,9 @@ define(['jquery', 'backbone', 'views/tasks/tasks', 'views/task/task', 'collectio
 				that = this;
 				
 			if (collection.state === 'init') {
-				collection.on('reset', function(models) {
+				collection.on('sync', function(models) {
 					// Remove listener
-					collection.off('reset', this);
+					collection.off('sync', this);
 					model = that.collections.tasks.get(id);
 					// Replace the newly created model with the attributes of the view
 					if (model) {

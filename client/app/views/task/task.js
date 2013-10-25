@@ -5,7 +5,7 @@ define(['backbone', 'underscore', 'handlebars', 'text!./task.html', 'module'],
 		
 		initialize: function() {
 			// Bind to the collection that must have been given as an init parameter
-			console.log('Bind event handlers');
+			//console.log('Bind event handlers');
 			this.model.on({
 				'all': _.bind(this.render, this)
 			});
@@ -21,7 +21,6 @@ define(['backbone', 'underscore', 'handlebars', 'text!./task.html', 'module'],
 			
 			// Replace the element contents
 			this.$el.html(html);
-			console.log(html);
 			
 			return this;
 		}
