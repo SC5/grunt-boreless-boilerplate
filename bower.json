@@ -10,8 +10,14 @@
     "backbone": "~1.1.0",
     "lodash": "~2.2.1",
     "requirejs-domready": "~2.0.1",
-    "handlebars.js": "~1.0.12",
-    "requirejs-text": "~2.0.10"
+    "handlebars.js": "~1.0.12"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "requirejs-text": "~2.0.10",
+    "chai": "~1.8.1",
+    "chai-changes": "*",
+    "chai-jquery": "~1.1.2",
+    "sinonjs": "~1.7.1",
+    "chai-backbone": "*"
+  }
 }

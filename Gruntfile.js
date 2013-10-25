@@ -147,8 +147,7 @@ module.exports = function(grunt) {
 			// Fill in manually afterwards to support our config style
 			debug : {
 				// Trick to concatenate the reset.css into the less file
-				src: [ '<%= defaults.source.dir %>/components/semantic-grid/stylesheets/reset.css',
-					'<%= defaults.source.dir %>/css/styles.less' ],
+				src: '<%= defaults.source.dir %>/css/styles.less',
 				dest: '<%= defaults.debug.dir %>/css/styles.css'
 			},
 			release : {

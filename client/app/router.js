@@ -6,7 +6,8 @@ define(['jquery', 'backbone', 'views/tasks/tasks', 'views/task/task', 'collectio
 		routes: {
 			'':  'main',
 			'tasks': 'tasks',
-			'tasks/:id': 'task'
+			'tasks/:id': 'task',
+			'*anything': 'main'
 		},
 		
 		collections: {
