@@ -80,6 +80,8 @@ module.exports = function(grunt) {
 				browsers: ['PhantomJS']
 			},
 			debug: {
+				singleRun: false,
+				browsers: ['Chrome'],
 				reporters: ['dots', 'coverage', 'junit'],
 				junitReporter: {
 					// NOTE: Output file is relative to karma.conf.js
@@ -207,8 +209,8 @@ module.exports = function(grunt) {
 				tasks : 'debug'
 			},
 			tests : {
-				files : [ 'tests/*.html' ],
-				tasks : 'test'
+				files : [ '<%= defaults.source.dir %>/test/**/*.js' ],
+				tasks : 'test:debug'
 			}
 		}
 	};
