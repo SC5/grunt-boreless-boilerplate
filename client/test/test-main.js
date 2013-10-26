@@ -21,8 +21,7 @@ require([ baseUrl + '/config.js'], function(mainConfig) {
 			chaiChanges: '../components/chai-changes/chai-changes',
 			chaiJQuery: '../components/chai-jquery/chai-jquery',
 			sinon: '../components/sinonjs/sinon',
-			chaiBackbone: '../components/chai-backbone/chai-backbone',
-			chaiAsPromised: '../components/chai-as-promised/lib/chai-as-promised',
+			chaiBackbone: '../components/chai-backbone/chai-backbone'
 			// Debug configuration (can be overriden in the build)
 		},
 		
@@ -41,13 +40,12 @@ require([ baseUrl + '/config.js'], function(mainConfig) {
 
 	// Start the tests
 	require(['chai', 'chaiChanges', 'chaiJQuery', 'sinon', 'backbone',
-		'chaiBackbone', 'chaiAsPromised'].concat(tests),
-		function(chai, chaiChanges, chaiJQuery, sinon, Backbone, chaiBackbone, chaiAsPromised) {
+		'chaiBackbone'].concat(tests),
+		function(chai, chaiChanges, chaiJQuery, sinon, Backbone, chaiBackbone) {
 		// Configure chai to use the extra modules
 		chai.use(chaiChanges);
 		chai.use(chaiJQuery);
 		chai.use(chaiBackbone);
-		chai.use(chaiAsPromised);
 		
 		var should = chai.should(),
 			expect = chai.expect;
