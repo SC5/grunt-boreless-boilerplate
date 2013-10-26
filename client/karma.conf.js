@@ -10,6 +10,7 @@ module.exports = function(config) {
       { pattern: 'test/**/*.spec.js', included: false },
       { pattern: 'app/**/*.js', included: false },
       { pattern: 'app/**/*.html', included: false },
+      { pattern: 'app/**/*.json', included: false },
       { pattern: 'components/**/*.js', included: false },
 
       'test/test-main.js'

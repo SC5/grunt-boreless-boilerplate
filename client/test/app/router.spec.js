@@ -1,5 +1,5 @@
-define(['chai', 'jquery', 'backbone', 'router'],
-	function(chai, $, Backbone, Router) {
+define(['router'],
+	function(Router) {
 	var router;
 
 	beforeEach(function() {
@@ -11,6 +11,11 @@ define(['chai', 'jquery', 'backbone', 'router'],
 		// TODO Check app bootstrapping
 		it('routes to the right paths', function() {
 			''.should.route.to(router, 'main');
+			'tasks'.should.route.to(router, 'tasks');
+			'tasks/1'.should.route.to(router, 'task', { arguments: ['1'] });
+		});
+		
+		it('executes the Tasks view', function() {
 			'tasks'.should.route.to(router, 'tasks');
 			'tasks/1'.should.route.to(router, 'task', { arguments: ['1'] });
 		});

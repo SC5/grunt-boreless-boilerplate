@@ -5,11 +5,9 @@ define(['backbone', 'underscore', 'handlebars', 'text!./tasks.html', 'module'],
 		
 		initialize: function() {
 			// Bind to the collection that must have been given as an init parameter
-			console.log('Bind event handlers');
-			this.collection.on({
-				'sync': _.bind(this.render, this)
-			});
-						
+			//console.log('Bind event handlers');
+			this.collection.on('sync', _.bind(this.render, this));
+			
 			return this;
 		},
 		

@@ -15,7 +15,7 @@ define(['jquery', 'backbone', 'views/tasks/tasks', 'views/task/task', 'collectio
 		},
 		
 		initialize: function() {
-			console.log('Initializing router');
+			//console.log('Initializing router');
 		},
 		
 		main: function() {
@@ -23,7 +23,7 @@ define(['jquery', 'backbone', 'views/tasks/tasks', 'views/task/task', 'collectio
 		},
 		
 		tasks: function() {
-			console.log('Trigger route tasks');
+			//console.log('Trigger route tasks');
 			
 			// Create a view with cached collection
 			var collection = this.collections.tasks,
@@ -44,9 +44,7 @@ define(['jquery', 'backbone', 'views/tasks/tasks', 'views/task/task', 'collectio
 				that = this;
 				
 			if (collection.state === 'init') {
-				collection.on('sync', function(models) {
-					// Remove listener
-					collection.off('sync', this);
+				collection.once('sync', function(models) {
 					model = that.collections.tasks.get(id);
 					// Replace the newly created model with the attributes of the view
 					if (model) {
