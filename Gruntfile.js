@@ -94,6 +94,7 @@ module.exports = function(grunt) {
 				}
 			},
 			release: {
+				captureTimeout: 15000,
 				reporters: ['dots', 'coverage', 'junit'],
 				junitReporter: {
 					// NOTE: Output file is relative to karma.conf.js
