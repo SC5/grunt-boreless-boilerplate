@@ -18,6 +18,7 @@
     "chai-changes": "*",
     "chai-jquery": "~1.1.2",
     "sinonjs": "~1.7.1",
-    "chai-backbone": "*"
+    "chai-backbone": "*",
+    "chai-as-promised": "~4.0.0"
   }
 }
