@@ -8,7 +8,7 @@ var express = require('express'),
 
 var app = express(),
 	mode = app.get('env'),
-	sourcePath = path.join(__dirname, '..', 'client');
+	sourcePath = path.join(__dirname, '..', 'src');
 	buildPath = path.join(__dirname,'..',
 		(mode === 'production') ? 'dist' : 'staging');
 

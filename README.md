@@ -59,12 +59,12 @@ To test the service in **release** mode, use
 
 #### App
 
-    client/             The client-side source code
-    client/index.html   The HTML entry point, stub page
-    client/app          Application source code
-    client/app/main.js  The app JS entry point
-    client/components   The 3rd party JS dependencies
-    client/css          The CSS templates
+    src/             The client-side source code
+    src/index.html   The HTML entry point, stub page
+    src/app          Application source code
+    src/app/main.js  The app JS entry point
+    src/components   The 3rd party JS dependencies
+    src/css          The CSS templates
 
 
 ####  Build System

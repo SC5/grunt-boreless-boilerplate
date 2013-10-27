@@ -37,7 +37,7 @@ module.exports = function(grunt) {
 		defaults: {
 			source: {
 				/* Note: You also need to change RequireJS paths below */
-				dir: 'client'
+				dir: 'src'
 			},
 			debug: {
 				dir: 'staging'
@@ -47,8 +47,8 @@ module.exports = function(grunt) {
 			},
 			requirejs: {
 				/* Note: We build directly from the source directory to avoid copying of libs */
-				baseUrl: 'client/app',
-				mainConfigFile: 'client/app/config.js',
+				baseUrl: 'src/app',
+				mainConfigFile: 'src/app/config.js',
 				dir: 'temp/app',
 				optimize: 'none',
 				keepBuildDir: false,
@@ -75,7 +75,7 @@ module.exports = function(grunt) {
 		},
 		karma: {
 			options: {
-				configFile: 'client/karma.conf.js',
+				configFile: 'src/karma.conf.js',
 				singleRun: true,
 				browsers: ['PhantomJS']
 			},
