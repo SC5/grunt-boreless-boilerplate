@@ -84,12 +84,35 @@ To test the service in **release** mode, use
     staging/            Results of the build step
     dist/               Minified & optimised version
 
+## Using BoReLESS as an Upstream
+
+Upgrading the boilerplate in your project may be tedious work. Once BoReLESS
+directory structure becomes stable (it might be already, but no guarantees!),
+you can use it directly as an upstream (here with a name 'boreless').
+
+    > git remote add -f boreless git@github.com:SC5/grunt-boreless-boilerplate.git
+
+Now synchronizing with BoReLESS becomes easier:
+
+    > git pull boreless master
+
+It is possible to use BoReLESS as a subtree, too:
+
+    > git subtree add --prefix client --squash git@github.com:SC5/grunt-boreless-boilerplate.git master --squash
+    > git remote add -f boreless git@github.com:SC5/grunt-boreless-boilerplate.git
+    > git fetch boreless master
+
+The example pulls BoReLESS master branch into 'client' subdirectory. The key here is to use
+'--prefix client' to keep the boilerplate in its own subdirectory. Later on, sync by:
+
+    > git subtree pull --prefix client boreless master
+
+
 ## TODO
 
 * Use some sensible app boilerplate (or fetch it from another project)
 * Add Cordova builds (or put it its own branch or an example)
 * Add templating language compilation into JS RequireJS modules
-* Add tests and travis configuration
 * Add some examples & documentation
 
 ## Release History
