@@ -1,7 +1,9 @@
-define(['jquery', 'modernizr'], function($, modernizr) {
+define(['angular'], function(angular) {
+	angular.module('BoReLESS-Angular', []);
+	
 	function start() {
 		// Start the app here
-		$('#status').html('If you can read this text, your stack should be alright.');
+		angular.bootstrap(document, ['BoReLESS-Angular']);
 	}
 	
 	return {

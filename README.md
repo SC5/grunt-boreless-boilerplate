@@ -1,11 +1,7 @@
-# BoReLESS - Grunt Bower + RequireJS + LESS Boilerplate
+# BoReLESS - Grunt Bower + RequireJS + LESS Boilerplate w/Angular
 [![Build Status](https://travis-ci.org/SC5/grunt-boreless-boilerplate.png?branch=master)](https://travis-ci.org/SC5/grunt-boreless-boilerplate)
 
-This is a boilerplate to ease builds of web projects utilising good build
-tools and related utilities, such as Grunt, RequireJS, LESS and Karma.
-
-Unlike Yeoman & other tools, this is a pure Grunt script with full transparency
-on how the build is handled; there is no magic.
+This is an AngularJS example using BoReLESS.
 
 ## Installation
 

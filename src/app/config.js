@@ -2,8 +2,13 @@ require.config({
 	baseUrl: 'app',
 
 	paths : {
-		jquery: '../components/jquery/jquery.min',
-		modernizr: '../components/modernizr/modernizr'
+		angular: '../components/angular/angular'
+	},
+	
+	shim: {
+		'angular': {
+			exports: 'angular'
+		}
 	}
 });
 

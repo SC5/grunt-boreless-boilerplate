@@ -9,10 +9,10 @@
 	<script src="<%= scripts[i] %>"></script>
 	<% } %>
 </head>
-<body>
+<body ng-cloak>
 	<h1>BoReLESS - Grunt, Bower, RequireJS, &amp; LESS Boilerplate</h1>
 	<div id="status">
-		<p>If you see this, something is wrong with your installation.</p>
+		<p>If you see this, it should {{ 'work' + '!'}}</p>
 	</div>
 	<footer>
 		<p>Copyright 2013 SC5 Online</p>
