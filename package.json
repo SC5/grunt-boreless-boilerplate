@@ -27,7 +27,7 @@
 		"karma-coverage": "0.1.x",
 		"phantomjs": "1.9.x",
 		"phonegap": "latest",
-		"grunt-phonegap": "0.2.x"
+		"grunt-phonegap": "0.3.x"
 	},
 	"scripts": {
 		"install": "bower install; cd server; npm install; cd ..",
