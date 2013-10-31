@@ -3,6 +3,6 @@ staging
 dist
 node_modules
 server/node_modules
-client/components
+src/components
 .project
 phonegap

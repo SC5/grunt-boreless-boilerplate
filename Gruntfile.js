@@ -34,24 +34,13 @@ module.exports = function(grunt) {
 		grunt.log.writeln('File "' + dest + '" processed.');
 	});
 
-	// Launch the server from within grunt
-	// Small-scale utility for processing templates
-	grunt.registerMultiTask('server', 'Launch test server.', function() {
-		var data = this.data;
-		var context = data.context;
-		var source = grunt.template.process(data.src);
-
-		// Require the server. Note: Currently it starts by itself
-		var server = require(source);
-	});
-
 	// The real grunt config
 	var config = {
 		pkg: grunt.file.readJSON('package.json'),
 		defaults: {
 			source: {
 				/* Note: You also need to change RequireJS paths below */
-				dir: 'client'
+				dir: 'src'
 			},
 			debug: {
 				dir: 'staging'
@@ -61,8 +50,8 @@ module.exports = function(grunt) {
 			},
 			requirejs: {
 				/* Note: We build directly from the source directory to avoid copying of libs */
-				baseUrl: 'client/app',
-				mainConfigFile: 'client/app/main.js',
+				baseUrl: 'src/app',
+				mainConfigFile: 'src/app/config.js',
 				dir: 'temp/app',
 				optimize: 'none',
 				keepBuildDir: false,
@@ -89,9 +78,10 @@ module.exports = function(grunt) {
 		},
 		phonegap: {
 			config: {
-				root: 'staging',
-				config: 'client/config.xml',
-				cordova: 'client/.cordova',
+				root: '<%= defaults.release.dir %>',
+				//root: '<%= defaults.debug.dir %>',
+				config: '<%= defaults.source.dir %>/config.xml',
+				cordova: '<%= defaults.source.dir %>/.cordova',
 				path: 'phonegap',
 				plugins: [],
 				platforms: ['android'],
@@ -100,16 +90,12 @@ module.exports = function(grunt) {
 		},
 		karma: {
 			options: {
-				configFile: 'client/karma.conf.js',
-				proxies: {
-					'/app': 'http://localhost:' + port + '/app',
-					'/components' : 'http://localhost:' + port + '/components',
-					'/contrib' : 'http://localhost:' + port + '/contrib'
-				},
+				configFile: 'src/karma.conf.js',
 				singleRun: true,
 				browsers: ['PhantomJS']
 			},
 			debug: {
+				singleRun: false,
 				reporters: ['dots', 'coverage', 'junit'],
 				junitReporter: {
 					// NOTE: Output file is relative to karma.conf.js
@@ -122,6 +108,7 @@ module.exports = function(grunt) {
 				}
 			},
 			release: {
+				captureTimeout: 15000,
 				reporters: ['dots', 'coverage', 'junit'],
 				junitReporter: {
 					// NOTE: Output file is relative to karma.conf.js
@@ -134,7 +121,8 @@ module.exports = function(grunt) {
 				}
 			},
 			desktop: {
-				browsers: ['Chrome']
+				browsers: ['Chrome'],
+				singleRun: false
 			}
 		},
 
@@ -237,8 +225,8 @@ module.exports = function(grunt) {
 				tasks : 'debug'
 			},
 			tests : {
-				files : [ 'tests/*.html' ],
-				tasks : 'test'
+				files : [ '<%= defaults.source.dir %>/test/**/*.js' ],
+				tasks : 'test:debug'
 			}
 		}
 	};
@@ -248,18 +236,19 @@ module.exports = function(grunt) {
 
 	// Define the 'external API' through task aliases; Override the defaults by platform specifics
 	// TODO: release task
-	//grunt.registerTask('release', ['clean', 'process:release', 'less:release', 'requirejs:release', 'copy:release', 'uglify', 'test']);
-	grunt.registerTask('debug', ['clean', 'process:debug', 'less:debug', 'copy:debug', 'test']);
+	grunt.registerTask('release', ['clean', 'process:release', 'less:release', 'requirejs:release', 'copy:release', 'uglify', 'test:release']);
+	grunt.registerTask('debug', ['clean', 'process:debug', 'less:debug', 'copy:debug', 'test:debug']);
 	// NOTE: Tests starts a temporary server for static files
-	grunt.registerTask('test:release', ['jshint', 'server', 'karma:release']);
-	grunt.registerTask('test:debug', ['jshint', 'server', 'karma:debug']);
+	grunt.registerTask('test:release', ['jshint', 'karma:release']);
+	grunt.registerTask('test:debug', ['jshint', 'karma:debug']);
+	grunt.registerTask('test:desktop', ['jshint', 'karma:desktop']);
 	grunt.registerTask('test', ['test:debug']);
 
-	grunt.registerTask('build:debug', ['debug', 'phonegap:build']);
-	grunt.registerTask('build', ['build:debug']);
+	grunt.registerTask('build:release', ['release', 'phonegap:build']);
+	grunt.registerTask('build', ['build:release']);
 
-	grunt.registerTask('run:debug', ['build:debug', 'phonegap:run']);
-	grunt.registerTask('run', ['run:debug']);
+	grunt.registerTask('run:release', ['build:release', 'phonegap:run']);
+	grunt.registerTask('run', ['run:release']);
 
 	grunt.registerTask('default', ['run']);
 };

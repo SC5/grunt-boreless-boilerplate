@@ -1,14 +1,22 @@
 # BoReLESS - Grunt Bower + RequireJS + LESS Boilerplate
+[![Build Status](https://travis-ci.org/SC5/grunt-boreless-boilerplate.png?branch=master)](https://travis-ci.org/SC5/grunt-boreless-boilerplate)
 
-This is a boilerplate to ease builds of web projects utilising RequireJS, having several JS library dependencies. Unlike Yeoman & other tools, this is a pure Grunt script with full transparency on how the build is handled; there is no magic.
+This is a boilerplate to ease builds of web projects utilising good build
+tools and related utilities, such as Grunt, RequireJS, LESS and Karma.
+
+Unlike Yeoman & other tools, this is a pure Grunt script with full transparency
+on how the build is handled; there is no magic.
 
 ## Installation
 
-If you don't already have node.js 0.8.x or later, fetch it from [nodejs.org](http://www.nodejs.org/). In addition we need a few dependencies you may have.
+If you don't already have node.js 0.8.x or later, fetch it from
+[nodejs.org](http://www.nodejs.org/). In addition we need a few dependencies
+you may have.
 
     > npm install -g bower grunt-cli
 
-Installing the project itself is easy. Both build system dependencies and app dependencies are triggered by
+Installing the project itself is easy. Both build system dependencies and app
+dependencies are triggered by
 
     > npm install
 
@@ -30,11 +38,15 @@ To trigger **release** build
 
 ## Running the Service
 
-Most likely the normal *grunt server* will fail (yet there is no big reason why it should). The system comes with bundled *node/express* stack, because that is likely you would use for development use, anyway. Start the server in **debug** mode by
+Most likely the normal *grunt server* will fail (yet there is no big reason
+why it should). The system comes with bundled *node/express* stack, because
+that is likely you would use for development use, anyway. Start the server in
+**debug** mode by
 
     > npm start
 
-Note that if you have run *grunt debug* in another window, it should be rebuilding your changed pages in the background.
+Note that if you have run *grunt debug* in another window, it should be
+rebuilding your changed pages in the background.
 
 To test the service in **release** mode, use
 
@@ -47,12 +59,12 @@ To test the service in **release** mode, use
 
 #### App
 
-    client/             The client-side source code
-    client/index.html   The HTML entry point, stub page
-    client/app          Application source code
-    client/app/main.js  The app JS entry point
-    client/components   The 3rd party JS dependencies
-    client/css          The CSS templates
+    src/             The client-side source code
+    src/index.html   The HTML entry point, stub page
+    src/app          Application source code
+    src/app/main.js  The app JS entry point
+    src/components   The 3rd party JS dependencies
+    src/css          The CSS templates
 
 
 ####  Build System
@@ -72,18 +84,42 @@ To test the service in **release** mode, use
     staging/            Results of the build step
     dist/               Minified & optimised version
 
+## Using BoReLESS as an Upstream
+
+Upgrading the boilerplate in your project may be tedious work. Once BoReLESS
+directory structure becomes stable (it might be already, but no guarantees!),
+you can use it directly as an upstream (here with a name 'boreless').
+
+    > git remote add -f boreless git@github.com:SC5/grunt-boreless-boilerplate.git
+
+Now synchronizing with BoReLESS becomes easier:
+
+    > git pull boreless master
+
+It is possible to use BoReLESS as a subtree, too:
+
+    > git subtree add --prefix client --squash git@github.com:SC5/grunt-boreless-boilerplate.git master --squash
+    > git remote add -f boreless git@github.com:SC5/grunt-boreless-boilerplate.git
+    > git fetch boreless master
+
+The example pulls BoReLESS master branch into 'client' subdirectory. The key here is to use
+'--prefix client' to keep the boilerplate in its own subdirectory. Later on, sync by:
+
+    > git subtree pull --prefix client boreless master
+
+
 ## TODO
 
 * Use some sensible app boilerplate (or fetch it from another project)
 * Add Cordova builds (or put it its own branch or an example)
 * Add templating language compilation into JS RequireJS modules
-* Add tests and travis configuration
 * Add some examples & documentation
 
 ## Release History
 
 * 2013/01/16 - v0.1.0 - Initial release
 * 2013/03/10 - v0.2.0 - Update to Grunt 0.4.0
+* 2013/10/12 - v0.3.0 - Add Karma based test automation
 
 ## License
 
