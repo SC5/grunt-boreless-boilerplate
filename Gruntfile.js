@@ -80,8 +80,6 @@ module.exports = function(grunt) {
 				browsers: ['PhantomJS']
 			},
 			debug: {
-				singleRun: false,
-				browsers: ['Chrome'],
 				reporters: ['dots', 'coverage', 'junit'],
 				junitReporter: {
 					// NOTE: Output file is relative to karma.conf.js
@@ -124,7 +122,10 @@ module.exports = function(grunt) {
 					scriptLoader: 'components/requirejs/require.js',
 					// This is an extra mechanism e.g. for injecting weinre, cordova & such
 					// things that we want to explicitly get to header
-					scripts: [ 'components/less.js/dist/less-1.3.3.js' ]
+					scripts: [
+						'components/less.js/dist/less-1.3.3.js',
+						'//localhost:35729/livereload.js'
+					]
 				}
 			},
 			release: {
@@ -144,15 +145,10 @@ module.exports = function(grunt) {
 				options: '<%= defaults.requirejs %>'
 			}
 		},
-		less : {
-			// Fill in manually afterwards to support our config style
-			debug : {
-				src: '<%= defaults.source.dir %>/css/styles.less',
-				dest: '<%= defaults.debug.dir %>/css/styles.css'
-			},
-			release : {
-				options : {
-					yuicompress : true
+		less: {
+			release: {
+				options: {
+					yuicompress: true
 				},
 				src: '<%= defaults.source.dir %>/css/styles.less',
 				dest: 'temp/css/styles-<%= pkg.version %>.css'
@@ -191,7 +187,10 @@ module.exports = function(grunt) {
 		clean: {
 			all: [ 'temp', '<%= defaults.debug.dir %>', '<%= defaults.release.dir %>' ]
 		},
-		watch : {
+		watch: {
+			options: {
+				livereload: true
+			},
 			client : {
 				files : [
 				'<%= defaults.source.dir %>/app/**/*.js',
@@ -212,7 +211,7 @@ module.exports = function(grunt) {
 
 	// Define the 'external API' through task aliases; Override the defaults by platform specifics
 	grunt.registerTask('release', ['clean', 'process:release', 'less:release', 'requirejs:release', 'copy:release', 'uglify', 'test:release']);
-	grunt.registerTask('debug', ['clean', 'process:debug', 'less:debug', 'test:debug']);
+	grunt.registerTask('debug', ['clean', 'process:debug', 'test:debug']);
 	// NOTE: Tests starts a temporary server for static files
 	grunt.registerTask('test:release', ['jshint', 'karma:release']);
 	grunt.registerTask('test:debug', ['jshint', 'karma:debug']);
