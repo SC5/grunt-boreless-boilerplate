@@ -10,6 +10,7 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('grunt-karma');
+	grunt.loadNpmTasks('grunt-concurrent');
 
 	// Small-scale utility for processing templates
 	grunt.registerMultiTask('process', 'Process templates.', function() {
@@ -80,18 +81,7 @@ module.exports = function(grunt) {
 				browsers: ['PhantomJS']
 			},
 			debug: {
-				singleRun: false,
-				browsers: ['Chrome'],
-				reporters: ['dots', 'coverage', 'junit'],
-				junitReporter: {
-					// NOTE: Output file is relative to karma.conf.js
-					outputFile: '../<%= defaults.debug.dir %>/test/junit/test-results.xml',
-					suite: ''
-				},
-				coverageReporter: {
-					type: 'cobertura',
-					dir: '../<%= defaults.debug.dir %>/test/coverage/'
-				}
+				reporters: ['dots']
 			},
 			release: {
 				captureTimeout: 15000,
@@ -106,9 +96,14 @@ module.exports = function(grunt) {
 					dir: '../<%= defaults.release.dir %>/test/coverage/'
 				}
 			},
-			desktop: {
+			watch: {
 				browsers: ['Chrome'],
 				singleRun: false,
+				autoWatch: true,
+				reporters: ['dots'],
+				htmlReporter: {
+					outputFile: '../<%= defaults.debug.dir %>/test/units.html',
+				}
 			}
 		},
 
@@ -118,18 +113,21 @@ module.exports = function(grunt) {
 				src: '<%= defaults.source.dir %>/index.html',
 				dest: '<%= defaults.debug.dir %>/index.html',
 				context: {
-					stylesheetFile: 'css/styles.less',
-					stylesheetLanguage: 'stylesheet/less',
+					stylesheetFile: 'css/styles.css',
+					stylesheetLanguage: 'stylesheet',
 					scriptFile: 'app/main.js',
 					scriptLoader: 'components/requirejs/require.js',
 					// This is an extra mechanism e.g. for injecting weinre, cordova & such
 					// things that we want to explicitly get to header
-					scripts: [ 'components/less.js/dist/less-1.3.3.js' ]
+					scripts: [
+						/* Live reload triggered by grunt watch */
+						'//localhost:35729/livereload.js'
+					]
 				}
 			},
 			release: {
 				src: '<%= defaults.source.dir %>/index.html',
-				dest: 'temp/index.html',
+				dest: '<%= defaults.release.dir %>/index.html',
 				context: {
 					stylesheetFile: 'css/styles-<%= pkg.version %>.css',
 					stylesheetLanguage: 'stylesheet',
@@ -139,30 +137,30 @@ module.exports = function(grunt) {
 				}
 			}
 		},
-		requirejs : {
-			release : {
+		requirejs: {
+			release: {
 				options: '<%= defaults.requirejs %>'
 			}
 		},
-		less : {
-			// Fill in manually afterwards to support our config style
-			debug : {
-				// Trick to concatenate the reset.css into the less file
+		less: {
+			release: {
+				options: {
+					yuicompress: true
+				},
+				src: '<%= defaults.source.dir %>/css/styles.less',
+				dest: '<%= defaults.release.dir %>/css/styles-<%= pkg.version %>.css'
+			},
+			debug: {
+				options: {
+					yuicompress: false
+				},
 				src: '<%= defaults.source.dir %>/css/styles.less',
 				dest: '<%= defaults.debug.dir %>/css/styles.css'
-			},
-			release : {
-				options : {
-					yuicompress : true
-				},
-				src: [ '<%= defaults.source.dir %>/components/semantic-grid/stylesheets/reset.css',
-					'<%= defaults.source.dir %>/css/styles.less' ],
-				dest: 'temp/css/styles-<%= pkg.version %>.css'
-			},
+			}
 		},
 		// Build JS into one monolith by JamJS/RequireJS
 		uglify : {
-			release : {
+			release: {
 				files: {
 					'<%= defaults.release.dir %>/app/main-<%= pkg.version %>.js': 'temp/app/main.js',
 					'<%= defaults.release.dir %>/components/requirejs/require-<%= pkg.version %>.js': '<%= defaults.source.dir %>/components/requirejs/require.js'
@@ -170,19 +168,12 @@ module.exports = function(grunt) {
 			}
 		},
 		/* Helper tasks */
-		copy : {
-			release : {
-				files : [
+		copy: {
+			release: {
+				files: [
 					/* Copy to temp directory first */
 					{
 						src: '*.html',
-						expand: true,
-						cwd: 'temp',
-						dest: '<%= defaults.release.dir %>'
-					},
-					/* Then the real thing */
-					{
-						src: [ '**/*.css' ],
 						expand: true,
 						cwd: 'temp',
 						dest: '<%= defaults.release.dir %>'
@@ -199,19 +190,43 @@ module.exports = function(grunt) {
 		clean: {
 			all: [ 'temp', '<%= defaults.debug.dir %>', '<%= defaults.release.dir %>' ]
 		},
-		watch : {
-			client : {
-				files : [
+		watch: {
+			options: {
+				livereload: true
+			},
+			client: {
+				files: [
 				'<%= defaults.source.dir %>/app/**/*.js',
 				'<%= defaults.source.dir %>/css/**/*.less',
 				'<%= defaults.source.dir %>/**/*.html'
 				],
 				tasks : 'debug'
 			},
-			tests : {
-				files : [ '<%= defaults.source.dir %>/test/**/*.js' ],
-				tasks : 'test:debug'
+			tests: {
+				files: [ '<%= defaults.source.dir %>/test/**/*.js' ],
+				tasks: 'test:debug'
+			},
+			watch: {
+				files: [
+				'<%= defaults.source.dir %>/app/**/*.js',
+				'<%= defaults.source.dir %>/css/**/*.less',
+				'<%= defaults.source.dir %>/*.html',
+				'<%= defaults.source.dir %>/test/**/*.js'
+				],
+				tasks: ['concurrent:debug']
 			}
+		},
+		concurrent: {
+			release: ['process:release', 'less:release', 'pipeline:javascript:release', 'copy:release'],
+			debug: ['process:debug', 'less:debug'],
+			watch: {
+				tasks: ['watch:watch', 'jshint', 'karma:watch'],
+				options: {
+					logConcurrentOutput: true
+				}
+			},
+			testRelease: ['jshint', 'karma:release'],
+			testDebug: ['jshint', 'karma:debug']
 		}
 	};
 
@@ -219,11 +234,13 @@ module.exports = function(grunt) {
 	grunt.initConfig(config);
 
 	// Define the 'external API' through task aliases; Override the defaults by platform specifics
-	grunt.registerTask('release', ['clean', 'process:release', 'less:release', 'requirejs:release', 'copy:release', 'uglify', 'test:release']);
-	grunt.registerTask('debug', ['clean', 'process:debug', 'less:debug', 'test:debug']);
+	grunt.registerTask('release', ['clean', 'concurrent:release', 'concurrent:testRelease']);
+	grunt.registerTask('debug', ['clean', 'concurrent:debug', 'concurrent:testDebug']);
+	grunt.registerTask('monitor', ['debug', 'concurrent:watch']);
 	// NOTE: Tests starts a temporary server for static files
-	grunt.registerTask('test:release', ['jshint', 'karma:release']);
-	grunt.registerTask('test:debug', ['jshint', 'karma:debug']);
-	grunt.registerTask('test:desktop', ['jshint', 'karma:desktop']);
+	grunt.registerTask('pipeline:javascript:release', ['requirejs:release', 'uglify']);
+	grunt.registerTask('test:release', ['concurrent:testRelease']);
+	grunt.registerTask('test:debug', ['concurrent:testDebug']);
+	grunt.registerTask('test:watch', ['concurrent:testWatch']);
 	grunt.registerTask('default', ['release']);
 };
