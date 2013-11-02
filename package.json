@@ -7,17 +7,17 @@
   },
   "private": false,
   "dependencies": {
+  },
+  "devDependencies": {
     "grunt": "0.4.x",
     "grunt-contrib-less": "0.7.x",
     "grunt-contrib-clean": "0.5.x",
     "grunt-contrib-copy": "0.4.x",
     "grunt-contrib-uglify": "0.2.x",
     "grunt-contrib-requirejs": "0.4.x",
-    "grunt-contrib-watch": "0.5.x"
-  },
-  "devDependencies": {
+    "grunt-contrib-watch": "0.5.x",
+    "grunt-concurrent": "~0.4.1",
     "grunt-contrib-jshint": "0.6.x",
-    "grunt-contrib-qunit": "0.3.x",
     "grunt-karma": "0.7.x",
     "karma": "0.10.x",
     "karma-phantomjs-launcher": "0.1.x",

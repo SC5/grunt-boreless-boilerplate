@@ -53,6 +53,14 @@ To test the service in **release** mode, use
     > grunt release
     > NODE_ENV=production node server/server.js
 
+You most likely want to re-run the tests and reload the files automatically.
+Start the debug server elsewhere, then run
+
+    > grunt monitor
+
+And the build will start to watch the changes in your project, triggering
+reload when needed.
+
 ##  Extending & Hacking
 
 ###  Project layout
