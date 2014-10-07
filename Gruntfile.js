@@ -9,6 +9,7 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-contrib-jshint');
+    grunt.loadNpmTasks("grunt-jscs");
 	grunt.loadNpmTasks('grunt-karma');
 	grunt.loadNpmTasks('grunt-concurrent');
 
@@ -74,6 +75,12 @@ module.exports = function(grunt) {
 				}
 			}
 		},
+        jscs: {
+            src: "src/app/**/*.js",
+            options: {
+                config: ".jscsrc"
+            }
+        },
 		karma: {
 			options: {
 				configFile: 'src/karma.conf.js',
@@ -232,10 +239,11 @@ module.exports = function(grunt) {
 	grunt.registerTask('release', ['clean', 'concurrent:release', 'concurrent:testRelease']);
 	grunt.registerTask('debug', ['clean', 'concurrent:debug', 'concurrent:testDebug']);
 	grunt.registerTask('monitor', ['debug', 'concurrent:watch']);
+	grunt.registerTask('jscs', []);
 	// NOTE: Tests starts a temporary server for static files
 	grunt.registerTask('pipeline:javascript:release', ['requirejs:release', 'uglify']);
 	grunt.registerTask('test:release', ['concurrent:testRelease']);
 	grunt.registerTask('test:debug', ['concurrent:testDebug']);
 	grunt.registerTask('test:watch', ['concurrent:testWatch']);
-	grunt.registerTask('default', ['release']);
+	grunt.registerTask('default', ['jscs', 'release']);
 };
