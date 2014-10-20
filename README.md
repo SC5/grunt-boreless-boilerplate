@@ -1,6 +1,9 @@
 # BoReLESS - Grunt Bower + RequireJS + LESS Boilerplate
 [![Build Status](https://travis-ci.org/SC5/grunt-boreless-boilerplate.png?branch=master)](https://travis-ci.org/SC5/grunt-boreless-boilerplate)
 
+**This project is deprecated (no longer actively maintained) in favor or our [Gulp
+BoBrSASS boilerplate](https://github.com/SC5/gulp-bobrsass-boilerplate). If you still want to stick with Grunt, consider some of the [Yeoman generators](http://yeoman.io/generators/).**
+
 This is a boilerplate to ease builds of web projects utilising good build
 tools and related utilities, such as Grunt, RequireJS, LESS and Karma.
 
